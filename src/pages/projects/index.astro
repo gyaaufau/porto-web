@@ -1,0 +1,28 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import Projects from "../../components/Projects.astro";
+import { portfolioProjects } from "../../data/portfolio";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="All Projects | Argya Aulia Fauzandika"
+  description="Complete project archive for Argya Aulia Fauzandika."
+>
+  <main class="page-shell">
+    <Navbar />
+
+    <section class="project-page-top panel">
+      <a class="back-link" href="/#projects">back / home</a>
+    </section>
+
+    <section class="project-archive-page panel">
+      <div class="project-archive-head">
+        <p class="section-eyebrow">all projects</p>
+        <h1>Project archive.</h1>
+        <p>Featured and regular projects are collected here. Featured items are marked directly on the card.</p>
+      </div>
+
+      <Projects projects={portfolioProjects} showFeaturedChip={true} />
+    </section>
+  </main>
+</BaseLayout>

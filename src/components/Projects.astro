@@ -1,0 +1,47 @@
+---
+import type { ProjectItem } from "../data/portfolio";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  showFeaturedChip?: boolean;
+  projects: ProjectItem[];
+}
+
+const { title, description, showFeaturedChip = false, projects } = Astro.props;
+---
+<div class="projects-shell">
+  {(title || description) && (
+    <div class="projects-group-head">
+      {title && <h3>{title}</h3>}
+      {description && <p>{description}</p>}
+    </div>
+  )}
+  <div class="project-list" aria-label="Projects">
+    {
+      projects.map((project) => (
+        <a
+          class="project-card"
+          href={`/projects/${project.id}`}
+        >
+          {showFeaturedChip && project.featured && <span class="project-featured-chip">Featured</span>}
+          <span class="project-period project-card-period">{project.periodShort}</span>
+          <div class="project-card-title-row">
+            <div class="project-card-brand">
+              {project.logo ? (
+                <img class="project-card-logo" src={project.logo.src} alt={project.logo.alt} loading="lazy" />
+              ) : (
+                <div class="project-card-logo project-card-logo-fallback" aria-hidden="true">
+                  {project.title.slice(0, 1)}
+                </div>
+              )}
+              <h3>{project.title}</h3>
+            </div>
+          </div>
+          <p>{project.summary}</p>
+          {project.stack.length > 0 && <span class="project-highlight">{project.stack.slice(0, 3).join(" / ")}</span>}
+        </a>
+      ))
+    }
+  </div>
+</div>

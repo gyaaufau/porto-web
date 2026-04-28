@@ -1,0 +1,76 @@
+---
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import Hero from "../components/Hero.astro";
+import Navbar from "../components/Navbar.astro";
+import Projects from "../components/Projects.astro";
+import SectionShell from "../components/SectionShell.astro";
+import { featuredProjects, portfolio } from "../data/portfolio";
+import BaseLayout from "../layouts/BaseLayout.astro";
+const contactMap = Object.fromEntries(portfolio.directoryLinks.map((link) => [link.title, link.href]));
+const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) => [link.title, link.value]));
+---
+<BaseLayout
+  title="Argya Aulia Fauzandika | Mobile Developer"
+  description="ASCII-inspired navy portfolio for Argya Aulia Fauzandika, a Flutter mobile developer."
+>
+  <main id="top" class="page-shell">
+    <Navbar />
+
+    <Hero
+      name={portfolio.name}
+      role={portfolio.role}
+      intro={portfolio.intro}
+      location={portfolio.location}
+      links={portfolio.heroLinks}
+      photo={portfolio.photo}
+    />
+
+    <SectionShell
+      id="about"
+      eyebrow="01 // about"
+      title="Mobile systems, thoughtful screens, clean delivery."
+      description="A compact profile built for recruiters, collaborators, and product teams."
+    >
+      <About paragraphs={portfolio.about} />
+    </SectionShell>
+
+    <SectionShell
+      id="projects"
+      eyebrow="02 // selected work"
+      title="Selected work."
+      description="Manual curation for projects worth highlighting first."
+    >
+      {featuredProjects.length > 0 && (
+        <Projects
+          title="Featured Projects"
+          description="Projects I want visitors to notice first."
+          projects={featuredProjects}
+        />
+      )}
+      <div class="project-archive-cta panel">
+        <div>
+          <h3>Other Projects</h3>
+          <p>See the full archive with featured and regular projects in one place.</p>
+        </div>
+        <a class="button-link secondary" href="/projects">View All Projects</a>
+      </div>
+    </SectionShell>
+
+    <SectionShell
+      id="contact"
+      eyebrow="03 // contact"
+      title="Contact."
+      description="Simple ways to reach out."
+    >
+      <Contact
+        email={String(contactValueMap["Email"] ?? "hello@example.com")}
+        whatsapp={contactMap["WhatsApp"] ?? "https://wa.me/"}
+        github={contactMap["GitHub"] ?? "https://github.com/"}
+        linkedin={contactMap["LinkedIn"] ?? "https://linkedin.com/"}
+        playConsole={contactMap["Play Console"] ?? "https://play.google.com/console/"}
+        cv={contactMap["CV"] ?? "https://drive.google.com/"}
+      />
+    </SectionShell>
+  </main>
+</BaseLayout>

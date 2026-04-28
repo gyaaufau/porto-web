@@ -1,0 +1,85 @@
+---
+const navItems = [
+  { label: "Home", href: "#top" },
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" }
+];
+---
+<nav class="navbar panel" aria-label="Primary">
+  <div class="navbar-top">
+    <a class="navbar-brand" href="#top">
+      <span class="navbar-brand-mark" aria-hidden="true"></span>
+      <span>gialoop.my.id</span>
+    </a>
+
+    <button
+      class="navbar-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-drawer"
+      aria-label="Open navigation menu"
+      data-nav-toggle
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="navbar-links" id="primary-drawer" data-nav-drawer>
+    {
+      navItems.map((item) => (
+        <a href={item.href} data-nav-link={item.href}>
+          {item.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<script>
+  const nav = document.querySelector(".navbar");
+  const navToggle = nav?.querySelector("[data-nav-toggle]");
+  const navDrawer = nav?.querySelector("[data-nav-drawer]");
+  const navLinks = document.querySelectorAll("[data-nav-link]");
+  const mobileBreakpoint = window.matchMedia("(max-width: 720px)");
+
+  const setDrawerState = (open) => {
+    if (!nav || !navToggle || !navDrawer) return;
+
+    nav.dataset.drawerOpen = open ? "true" : "false";
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    navDrawer.toggleAttribute("data-open", open);
+  };
+
+  const setActiveLink = () => {
+    const currentHash = window.location.hash || "#top";
+
+    navLinks.forEach((link) => {
+      const active = link.getAttribute("href") === currentHash;
+      link.toggleAttribute("data-active", active);
+      link.setAttribute("aria-current", active ? "page" : "false");
+    });
+  };
+
+  navToggle?.addEventListener("click", () => {
+    const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+    setDrawerState(!isOpen);
+  });
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (mobileBreakpoint.matches) setDrawerState(false);
+    });
+  });
+
+  mobileBreakpoint.addEventListener("change", (event) => {
+    if (!event.matches) setDrawerState(false);
+  });
+
+  setActiveLink();
+  setDrawerState(false);
+  window.addEventListener("hashchange", setActiveLink);
+</script>

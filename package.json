@@ -1,0 +1,17 @@
+{
+  "name": "argya-portfolio",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "postinstall": "node scripts/patch-rollup-native.mjs"
+  },
+  "dependencies": {
+    "@rollup/wasm-node": "^4.52.5",
+    "astro": "^5.8.0"
+  }
+}

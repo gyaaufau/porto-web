@@ -1,0 +1,79 @@
+---
+import type { ProjectItem } from "../data/portfolio";
+
+export interface Props {
+  project: ProjectItem;
+}
+
+const { project } = Astro.props;
+---
+<article class="project-page-detail panel">
+  <div class="project-page-head">
+    <div class="project-page-title">
+      <div class="project-meta-row">
+        <span class="project-period-value">{project.periodShort}</span>
+      </div>
+      <div class="project-brand-row">
+        {project.logo ? (
+          <img class="project-detail-logo" src={project.logo.src} alt={project.logo.alt} loading="lazy" />
+        ) : (
+          <div class="project-detail-logo project-detail-logo-fallback" aria-hidden="true">
+            {project.title.slice(0, 1)}
+          </div>
+        )}
+        <div class="project-heading-copy">
+          <h1>{project.title}</h1>
+        </div>
+      </div>
+    </div>
+    {project.stack.length > 0 && (
+      <div class="stack-list project-stack-list">
+        {project.stack.map((item) => <span>{item}</span>)}
+      </div>
+    )}
+  </div>
+
+  {project.links.length > 0 && (
+    <div class="project-action-row">
+      {
+        project.links.map((link) => (
+          <a class="button-link secondary" href={link.href} target="_blank" rel="noreferrer">
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  )}
+
+  <p class="project-page-summary">{project.summary}</p>
+
+  {project.screenshots.length > 0 && (
+    <div class="project-gallery">
+      {project.screenshots.map((image) => <img src={image.src} alt={image.alt} loading="lazy" />)}
+    </div>
+  )}
+
+  <div class="project-sections">
+    {
+      project.sections.map((section) => (
+        <section class="project-content-section">
+          <h2>{section.title}</h2>
+          {
+            section.entries.map((entry) => (
+              <div class="project-content-entry">
+                {entry.title && <h3>{entry.title}</h3>}
+                {entry.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                {entry.bullets.length > 0 && (
+                  <ul class="detail-points">
+                    {entry.bullets.map((bullet) => <li>{bullet}</li>)}
+                  </ul>
+                )}
+                {entry.codeBlocks.map((block) => <pre class="project-code-block"><code>{block.content}</code></pre>)}
+              </div>
+            ))
+          }
+        </section>
+      ))
+    }
+  </div>
+</article>

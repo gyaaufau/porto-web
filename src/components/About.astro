@@ -1,0 +1,23 @@
+---
+export interface Props {
+  paragraphs: string[];
+}
+
+const { paragraphs } = Astro.props;
+---
+<div class="about-grid">
+  {
+    paragraphs.map((paragraph) => (
+      <p class="about-copy">{paragraph}</p>
+    ))
+  }
+  <div class="about-note panel">
+    <p class="terminal-line">[ strengths ]</p>
+    <ul>
+      <li>Flutter engineering since 2021</li>
+      <li>Clean Architecture and Melos modularization</li>
+      <li>AI-driven development workflow</li>
+      <li>Backend mindset with Docker-based environments</li>
+    </ul>
+  </div>
+</div>

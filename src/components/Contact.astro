@@ -1,0 +1,76 @@
+---
+export interface Props {
+  email: string;
+  whatsapp: string;
+  github: string;
+  linkedin: string;
+  playConsole: string;
+  cv: string;
+}
+
+const { email, whatsapp, github, linkedin, playConsole, cv } = Astro.props;
+
+const actions = [
+  {
+    label: "Email",
+    value: email,
+    href: `mailto:${email}`,
+    caption: "Best for project inquiry and formal conversation."
+  },
+  {
+    label: "WhatsApp",
+    value: "Quick chat",
+    href: whatsapp,
+    caption: "Fastest route for direct follow-up."
+  },
+  {
+    label: "GitHub",
+    value: "Code archive",
+    href: github,
+    caption: "Browse shipped work, experiments, and repos."
+  },
+  {
+    label: "LinkedIn",
+    value: "Professional profile",
+    href: linkedin,
+    caption: "Role history, profile, and public network."
+  },
+  {
+    label: "Play Console",
+    value: "Published apps",
+    href: playConsole,
+    caption: "Review apps, releases, and store presence."
+  },
+  {
+    label: "CV",
+    value: "Resume download",
+    href: cv,
+    caption: "One file for experience, stack, and delivery."
+  }
+] as const;
+---
+<div class="contact-shell panel">
+  <div class="contact-copy">
+    <p class="terminal-line">[ contact/open ]</p>
+    <h2>Let&apos;s talk.</h2>
+    <p>Open for collaboration, product work, and Flutter engineering roles.</p>
+  </div>
+  <div class="contact-actions-list">
+    {
+      actions.map((action) => (
+        <a
+          class={`contact-action-row${action.label === "Email" ? " contact-action-row-primary" : ""}`}
+          href={action.href}
+          target={action.href.startsWith("mailto:") ? undefined : "_blank"}
+          rel={action.href.startsWith("mailto:") ? undefined : "noreferrer"}
+        >
+          <div class="contact-action-head">
+            <p class="terminal-line">[{action.label.toLowerCase()}]</p>
+            <h3>{action.value}</h3>
+          </div>
+          <p>{action.caption}</p>
+        </a>
+      ))
+    }
+  </div>
+</div>

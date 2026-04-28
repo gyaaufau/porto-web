@@ -1,0 +1,25 @@
+---
+export interface DirectoryLink {
+  title: string;
+  value: string;
+  href: string;
+  caption: string;
+}
+
+export interface Props {
+  links: DirectoryLink[];
+}
+
+const { links } = Astro.props;
+---
+<div class="directory-grid">
+  {
+    links.map((link) => (
+      <a class="directory-card panel" href={link.href} target="_blank" rel="noreferrer">
+        <p class="terminal-line">[{link.title.toLowerCase()}]</p>
+        <h3>{link.value}</h3>
+        <p>{link.caption}</p>
+      </a>
+    ))
+  }
+</div>

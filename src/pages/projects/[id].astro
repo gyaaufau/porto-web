@@ -1,0 +1,29 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import ProjectDetailView from "../../components/ProjectDetailView.astro";
+import { portfolioProjects } from "../../data/portfolio";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return portfolioProjects.map((project) => ({
+    params: { id: project.id },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+---
+<BaseLayout
+  title={`${project.title} | Argya Aulia Fauzandika`}
+  description={project.summary}
+>
+  <main class="page-shell">
+    <Navbar />
+
+    <section class="project-page-top panel">
+      <a class="back-link" href="/#projects">back / projects</a>
+    </section>
+
+    <ProjectDetailView project={project} />
+  </main>
+</BaseLayout>

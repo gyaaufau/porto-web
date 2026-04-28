@@ -1,0 +1,66 @@
+---
+import type { PortfolioLink } from "../data/portfolio";
+
+export interface Props {
+  name: string;
+  role: string;
+  intro: string;
+  location: string;
+  links: PortfolioLink[];
+  photo: {
+    src: string;
+    alt: string;
+  };
+}
+
+const { name, role, intro, location, links, photo } = Astro.props;
+---
+<header class="hero">
+  <div class="hero-copy panel">
+    <p class="hero-kicker">Hello, I am</p>
+    <h1>{name}</h1>
+    <p class="hero-role">{role}</p>
+    <p class="hero-intro">{intro}</p>
+    <div class="hero-meta">
+      <span class="hero-location-pill">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10Zm0-8.25A2.75 2.75 0 1 0 12 7.25a2.75 2.75 0 0 0 0 5.5Z"
+            fill="currentColor"
+          />
+        </svg>
+        {location}
+      </span>
+    </div>
+    <div class="hero-actions">
+      {
+        links.map((link) => (
+          <a
+            class:list={["button-link", link.kind === "primary" ? "primary" : "secondary"]}
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            title={link.note}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="hero-visual panel">
+    <div class="portrait-shell">
+      {
+        photo.src ? (
+          <img class="portrait-image" src={photo.src} alt={photo.alt} />
+        ) : (
+          <div class="portrait-fallback" aria-label={photo.alt}>
+            <span>photo</span>
+            <span>add image in `public/data/myself`</span>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</header>
