@@ -1,9 +1,11 @@
 ---
 export interface Props {
   paragraphs: string[];
+  skills?: string[];
+  tech?: string[];
 }
 
-const { paragraphs } = Astro.props;
+const { paragraphs, skills = [], tech = [] } = Astro.props;
 ---
 <div class="about-grid">
   {
@@ -11,13 +13,20 @@ const { paragraphs } = Astro.props;
       <p class="about-copy">{paragraph}</p>
     ))
   }
-  <div class="about-note panel">
-    <p class="terminal-line">[ strengths ]</p>
-    <ul>
-      <li>Flutter engineering since 2021</li>
-      <li>Clean Architecture and Melos modularization</li>
-      <li>AI-driven development workflow</li>
-      <li>Backend mindset with Docker-based environments</li>
-    </ul>
+  <div class="about-list-section about-list-section-single panel">
+    <div class="about-note">
+      <p class="terminal-line">[ skills ]</p>
+      <ul class="about-list">
+        {skills.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="about-list-section about-list-section-single panel">
+    <div class="about-note">
+      <p class="terminal-line">[ tech ]</p>
+      <ul class="about-list">
+        {tech.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
   </div>
 </div>

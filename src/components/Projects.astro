@@ -9,6 +9,16 @@ export interface Props {
 }
 
 const { title, description, showFeaturedChip = false, projects } = Astro.props;
+const projectTypeLabel = {
+  personal: "Personal",
+  work: "Work"
+} as const;
+
+const appTypeLabel = {
+  mobile: "Mobile",
+  web: "Web",
+  "rest-api": "REST API"
+} as const;
 ---
 <div class="projects-shell">
   {(title || description) && (
@@ -24,7 +34,15 @@ const { title, description, showFeaturedChip = false, projects } = Astro.props;
           class="project-card"
           href={`/projects/${project.id}`}
         >
-          {showFeaturedChip && project.featured && <span class="project-featured-chip">Featured</span>}
+          <div class="project-card-meta">
+            {showFeaturedChip && project.featured && <span class="project-featured-chip">Featured</span>}
+            <span class={`project-type-chip project-type-chip-${project.projectType}`}>
+              {projectTypeLabel[project.projectType]}
+            </span>
+            <span class="project-type-chip project-app-chip">
+              {appTypeLabel[project.appType]}
+            </span>
+          </div>
           <span class="project-period project-card-period">{project.periodShort}</span>
           <div class="project-card-title-row">
             <div class="project-card-brand">
@@ -39,7 +57,6 @@ const { title, description, showFeaturedChip = false, projects } = Astro.props;
             </div>
           </div>
           <p>{project.summary}</p>
-          {project.stack.length > 0 && <span class="project-highlight">{project.stack.slice(0, 3).join(" / ")}</span>}
         </a>
       ))
     }

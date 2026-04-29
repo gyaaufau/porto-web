@@ -15,60 +15,70 @@ const actions = [
     label: "Email",
     value: email,
     href: `mailto:${email}`,
-    caption: "Best for project inquiry and formal conversation."
+    note: "For projects, freelance work, and professional collaboration.",
+    primary: true
   },
   {
     label: "WhatsApp",
     value: "Quick chat",
     href: whatsapp,
-    caption: "Fastest route for direct follow-up."
+    note: "Casual and fast replies"
   },
   {
     label: "GitHub",
-    value: "Code archive",
+    value: "Repos",
     href: github,
-    caption: "Browse shipped work, experiments, and repos."
+    note: "Code and experiments"
   },
   {
     label: "LinkedIn",
-    value: "Professional profile",
+    value: "Profile",
     href: linkedin,
-    caption: "Role history, profile, and public network."
+    note: "Professional profile"
   },
   {
-    label: "Play Console",
-    value: "Published apps",
+    label: "Play Store Developer",
+    value: "Apps",
     href: playConsole,
-    caption: "Review apps, releases, and store presence."
+    note: "Published apps"
   },
   {
     label: "CV",
-    value: "Resume download",
+    value: "Resume",
     href: cv,
-    caption: "One file for experience, stack, and delivery."
+    note: "Experience summary"
   }
 ] as const;
+
+const primaryAction = actions.find((action) => action.primary);
+const secondaryActions = actions.filter((action) => !action.primary);
 ---
-<div class="contact-shell panel">
-  <div class="contact-copy">
-    <p class="terminal-line">[ contact/open ]</p>
-    <h2>Let&apos;s talk.</h2>
-    <p>Open for collaboration, product work, and Flutter engineering roles.</p>
-  </div>
+<div class="contact-shell">
+  {primaryAction && (
+    <a
+      class="contact-primary-card"
+      href={primaryAction.href}
+      target={primaryAction.href.startsWith("mailto:") ? undefined : "_blank"}
+      rel={primaryAction.href.startsWith("mailto:") ? undefined : "noreferrer"}
+    >
+      <p class="terminal-line">[{primaryAction.label.toLowerCase()}]</p>
+      <h3>{primaryAction.value}</h3>
+      <p>{primaryAction.note}</p>
+      <span class="contact-primary-cta">Send email</span>
+    </a>
+  )}
   <div class="contact-actions-list">
     {
-      actions.map((action) => (
+      secondaryActions.map((action) => (
         <a
-          class={`contact-action-row${action.label === "Email" ? " contact-action-row-primary" : ""}`}
+          class="contact-link-card"
           href={action.href}
-          target={action.href.startsWith("mailto:") ? undefined : "_blank"}
-          rel={action.href.startsWith("mailto:") ? undefined : "noreferrer"}
+          target="_blank"
+          rel="noreferrer"
         >
-          <div class="contact-action-head">
-            <p class="terminal-line">[{action.label.toLowerCase()}]</p>
-            <h3>{action.value}</h3>
-          </div>
-          <p>{action.caption}</p>
+          <span>{action.label}</span>
+          <strong>{action.value}</strong>
+          <small>{action.note}</small>
         </a>
       ))
     }

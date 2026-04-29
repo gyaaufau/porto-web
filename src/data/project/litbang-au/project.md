@@ -1,28 +1,30 @@
 ---
 featured: true
+projectType: work
+appType: mobile
 ---
 
 # Litbang AU App
 
-## Periode Project
-Agustus 2025 - September 2025
+## Project Period
+August 2025 - September 2025
 
-## Ringkasan Singkat
-Litbang AU App adalah aplikasi Flutter internal untuk mendukung distribusi, tindak lanjut, persetujuan, dan pelacakan dokumen antarrole di lingkungan Litbang AU.
+## Quick Summary
+Litbang AU App is an internal Flutter application built to support document distribution, follow-up actions, approvals, and cross-role tracking within the Litbang AU environment.
 
-## Problem yang Diselesaikan
-- distribusi dokumen internal masih lambat karena banyak proses manual
-- status dokumen sulit dipantau end-to-end
-- koordinasi antarrole untuk membaca, menyetujui, dan menindaklanjuti dokumen belum efisien
-- file dan histori respons tersebar sehingga rawan miskomunikasi
+## Problems Solved
+- Internal document distribution was still slow because many steps were handled manually.
+- Document status was difficult to monitor end to end.
+- Cross-role coordination for reading, approving, and following up on documents was not efficient.
+- Files and response history were scattered, increasing the risk of miscommunication.
 
-## Fitur Utama
-- autentikasi dan session handling dengan secure storage
-- daftar dokumen dengan kategori seperti `TANDA_TANGAN`, `INFORMASI`, dan `TINDAK_LANJUT`
-- detail dokumen berisi file, pihak terlibat, dan riwayat proses
-- workflow berbasis role untuk accept, sign, response, forward, dan add people
-- download dan open file langsung dari perangkat
-- multi-environment `development`, `staging`, dan `production`
+## Key Features
+- Authentication and session handling with secure storage.
+- Document lists with categories such as `TANDA_TANGAN`, `INFORMASI`, and `TINDAK_LANJUT`.
+- Document detail views containing files, involved parties, and process history.
+- Role-based workflows for accept, sign, response, forward, and add people actions.
+- Direct file download and open flow from the device.
+- Multi-environment setup for `development`, `staging`, and `production`.
 
 ## Tech Stack
 - Flutter
@@ -37,11 +39,11 @@ Litbang AU App adalah aplikasi Flutter internal untuk mendukung distribusi, tind
 - Firebase Core
 - Cloud Firestore
 
-## Arsitektur Project
-Project ini memakai pendekatan modular berbasis feature. Layer utama dipisah antara area feature, shared utilities, resources, dan konfigurasi app, sehingga logic bisnis, dependency, storage, dan komponen UI lebih mudah dipelihara dan dikembangkan. Pendekatan ini membantu project tetap scalable saat jumlah module, workflow, dan role bertambah.
+## Project Architecture
+This project uses a feature-based modular approach. The main layers are separated into feature areas, shared utilities, resources, and app configuration, making business logic, dependencies, storage, and UI components easier to maintain and extend. This structure helps the project stay scalable as the number of modules, workflows, and roles grows.
 
-## Struktur Project
-Struktur folder utama:
+## Project Structure
+Main folder structure:
 
 ```text
 lib/
@@ -85,18 +87,18 @@ lib/
     └── widgets/
 ```
 
-## Tantangan Teknis
-### Sinkronisasi state setelah action
-Setelah user accept, sign, forward, atau response dokumen, detail harus di-refresh agar UI tetap konsisten dengan status terbaru.
+## Technical Challenges
+### State synchronization after actions
+After a user accepts, signs, forwards, or responds to a document, the detail view must refresh so the UI stays consistent with the latest status.
 
 ### File download lifecycle
-Flow download perlu menangani retry, pengecekan cache lokal, penentuan lokasi simpan, dan membuka file langsung dari device.
+The download flow needs to handle retries, local cache checks, save-location selection, and direct file opening from the device.
 
 ### Auth-driven routing
-Navigasi harus menyesuaikan hasil pengecekan token saat startup, sehingga splash, login, dan main shell tetap sinkron dengan state autentikasi.
+Navigation must adapt to the token check result during startup so the splash, login, and main shell remain synchronized with the authentication state.
 
 ## Impact
-- mendigitalisasi alur dokumen internal dengan workflow berbasis role
-- mempercepat distribusi dan tindak lanjut dokumen
-- meningkatkan visibilitas status baca, approval, dan histori proses
-- menunjukkan kemampuan membangun aplikasi Flutter internal dengan arsitektur modular dan business flow yang kompleks
+- Digitized the internal document flow with role-based workflows.
+- Accelerated document distribution and follow-up processes.
+- Improved visibility into read status, approvals, and process history.
+- Demonstrated the ability to build an internal Flutter application with modular architecture and complex business flows.

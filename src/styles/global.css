@@ -84,18 +84,14 @@ img {
 .navbar-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
   color: var(--text);
-  font: 600 0.84rem/1 "IBM Plex Mono", monospace;
-  letter-spacing: 0.08em;
-  text-transform: lowercase;
+  line-height: 0;
 }
 
-.navbar-brand-mark {
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 999px;
-  background: var(--accent-strong);
+.navbar-brand-logo {
+  width: auto;
+  height: 1.2rem;
+  max-width: min(9.75rem, 42vw);
 }
 
 
@@ -359,6 +355,7 @@ img {
 
 .about-copy {
   margin: 0;
+  grid-column: 1 / -1;
   padding: 1rem;
   border-radius: 12px;
   background: rgba(255, 212, 84, 0.04);
@@ -370,15 +367,41 @@ img {
   padding: 1rem;
 }
 
+.about-list-section {
+  position: relative;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.about-list-section-single {
+  grid-template-columns: 1fr;
+}
+
+.about-list-section .about-note {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
 .about-note ul,
 .detail-points {
   margin: 0;
   padding-left: 1.15rem;
 }
 
+.about-list {
+  columns: 2;
+  column-gap: 1.5rem;
+}
+
 .about-note li,
 .detail-points li {
   margin-top: 0.6rem;
+  break-inside: avoid;
 }
 
 .projects-shell {
@@ -421,17 +444,49 @@ img {
     box-shadow 180ms ease;
 }
 
+.project-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .project-featured-chip {
   display: inline-flex;
   align-items: center;
   min-height: 1.8rem;
-  margin-bottom: 1.25rem;
   border: 1px solid rgba(255, 212, 84, 0.2);
   border-radius: 999px;
   padding: 0.3rem 0.65rem;
   color: #f4df9a;
   background: rgba(255, 212, 84, 0.08);
   font: 500 0.72rem/1 "IBM Plex Mono", monospace;
+}
+
+.project-type-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.8rem;
+  border: 1px solid rgba(137, 169, 217, 0.18);
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+  font: 500 0.72rem/1 "IBM Plex Mono", monospace;
+}
+
+.project-type-chip-personal {
+  color: #d8e5fb;
+  background: rgba(137, 169, 217, 0.08);
+}
+
+.project-type-chip-work {
+  color: #f4df9a;
+  background: rgba(255, 212, 84, 0.08);
+}
+
+.project-app-chip {
+  color: #d7f6ee;
+  background: rgba(92, 214, 176, 0.1);
+  border-color: rgba(92, 214, 176, 0.2);
 }
 
 .project-card-title-row {
@@ -608,6 +663,7 @@ img {
   align-items: center;
   gap: 0.55rem;
   margin-top: 0.6rem;
+  margin-bottom: 0.9rem;
 }
 
 .project-period-value {
@@ -775,80 +831,105 @@ img {
 
 .contact-shell {
   display: grid;
-  grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.4fr);
   gap: 1rem;
   align-items: start;
 }
 
-.contact-copy {
+.contact-primary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   min-width: 0;
-  padding-right: 0.35rem;
-}
-
-.contact-copy h2 {
-  max-width: 9ch;
-}
-
-.contact-copy p {
-  max-width: 22rem;
-  margin-top: 0.65rem;
-}
-
-.contact-actions-list {
-  display: grid;
-  gap: 0.2rem;
-}
-
-.contact-action-row {
-  display: grid;
-  gap: 0.28rem;
-  padding: 0.95rem 0;
-  min-width: 0;
-  border-top: 1px solid rgba(255, 212, 84, 0.12);
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(255, 212, 84, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 212, 84, 0.08);
   transition:
     transform 180ms ease,
     border-color 180ms ease,
     background-color 180ms ease;
 }
 
-.contact-action-row:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.contact-action-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.8rem;
-}
-
-.contact-action-head .terminal-line {
+.contact-primary-card .terminal-line {
   margin-bottom: 0;
 }
 
-.contact-action-row h3 {
+.contact-primary-card h3 {
   margin: 0;
   color: var(--text);
-  font-size: 1rem;
-  line-height: 1.25;
-  text-align: right;
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  line-height: 1.15;
+  word-break: break-word;
 }
 
-.contact-action-row p {
+.contact-primary-card p:last-of-type {
   margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
-.contact-action-row-primary h3 {
-  color: #f8e6a6;
+.contact-primary-cta {
+  margin-top: 0.1rem;
+  color: #08101d;
+  border-radius: 999px;
+  padding: 0.48rem 0.8rem;
+  background: var(--accent);
+  font: 500 0.78rem/1 "IBM Plex Mono", monospace;
 }
 
-.contact-action-row:hover {
-  border-color: rgba(255, 212, 84, 0.26);
+.contact-primary-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 212, 84, 0.3);
+  background: rgba(255, 212, 84, 0.12);
 }
 
-.contact-action-row:hover h3 {
+.contact-actions-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.contact-link-card {
+  display: grid;
+  gap: 0.26rem;
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(255, 212, 84, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 212, 84, 0.03);
+  color: var(--muted);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.contact-link-card span {
   color: var(--accent);
+  font: 500 0.75rem/1.3 "IBM Plex Mono", monospace;
+  text-transform: lowercase;
+}
+
+.contact-link-card strong {
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.contact-link-card small {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.contact-link-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 212, 84, 0.28);
+  background: rgba(255, 212, 84, 0.08);
+  color: #f0ddb0;
 }
 
 @media (max-width: 1024px) {
@@ -898,9 +979,16 @@ img {
     padding-top: 0;
   }
 
-  .contact-copy h2,
-  .contact-copy p {
-    max-width: none;
+  .contact-actions-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-list-section {
+    grid-template-columns: 1fr;
+  }
+
+  .about-list {
+    columns: 1;
   }
 }
 
@@ -921,7 +1009,7 @@ img {
     width: 100%;
   }
 
-  .navbar-links {
+  .navbar .navbar-links {
     display: none;
     margin-top: 0.85rem;
     width: 100%;
@@ -933,22 +1021,21 @@ img {
     padding-top: 0.85rem;
   }
 
-  .navbar-links a {
+  .navbar .navbar-links a {
     width: 100%;
   }
 
-  .navbar-links[data-open] {
+  .navbar .navbar-links[data-open] {
     display: flex;
   }
 
-  .navbar-toggle {
+  .navbar .navbar-toggle {
     display: inline-flex;
   }
 
   .hero-copy,
   .hero-visual,
-  .section-shell,
-  .contact-shell {
+  .section-shell {
     padding: 1.15rem;
   }
 
@@ -970,14 +1057,8 @@ img {
     min-height: 320px;
   }
 
-  .contact-action-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.32rem;
-  }
-
-  .contact-action-row h3 {
-    text-align: left;
+  .contact-actions-list {
+    grid-template-columns: 1fr;
   }
 }
 .navbar-links {

@@ -27,24 +27,13 @@ const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) =
     />
 
     <SectionShell
-      id="about"
-      eyebrow="01 // about"
-      title="Mobile systems, thoughtful screens, clean delivery."
-      description="A compact profile built for recruiters, collaborators, and product teams."
-    >
-      <About paragraphs={portfolio.about} />
-    </SectionShell>
-
-    <SectionShell
       id="projects"
-      eyebrow="02 // selected work"
+      eyebrow="01 // selected work"
       title="Selected work."
-      description="Manual curation for projects worth highlighting first."
+      description="A few projects I want to highlight."
     >
       {featuredProjects.length > 0 && (
         <Projects
-          title="Featured Projects"
-          description="Projects I want visitors to notice first."
           projects={featuredProjects}
         />
       )}
@@ -58,6 +47,15 @@ const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) =
     </SectionShell>
 
     <SectionShell
+      id="about"
+      eyebrow="02 // about"
+      title="About me."
+      description="A short introduction about my background and work."
+    >
+      <About paragraphs={portfolio.about} skills={portfolio.skills} tech={portfolio.tech} />
+    </SectionShell>
+
+    <SectionShell
       id="contact"
       eyebrow="03 // contact"
       title="Contact."
@@ -68,7 +66,7 @@ const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) =
         whatsapp={contactMap["WhatsApp"] ?? "https://wa.me/"}
         github={contactMap["GitHub"] ?? "https://github.com/"}
         linkedin={contactMap["LinkedIn"] ?? "https://linkedin.com/"}
-        playConsole={contactMap["Play Console"] ?? "https://play.google.com/console/"}
+        playConsole={contactMap["Play Store Developer"] ?? "https://play.google.com/store/"}
         cv={contactMap["CV"] ?? "https://drive.google.com/"}
       />
     </SectionShell>

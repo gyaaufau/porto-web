@@ -1,4 +1,6 @@
 ---
+import logo from "../data/brand/logo.svg";
+
 const navItems = [
   { label: "Home", href: "#top" },
   { label: "About", href: "#about" },
@@ -9,8 +11,7 @@ const navItems = [
 <nav class="navbar panel" aria-label="Primary">
   <div class="navbar-top">
     <a class="navbar-brand" href="#top">
-      <span class="navbar-brand-mark" aria-hidden="true"></span>
-      <span>gialoop.site</span>
+      <img class="navbar-brand-logo" src={logo.src} alt="gialoop logo" />
     </a>
 
     <button

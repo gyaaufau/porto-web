@@ -6,11 +6,27 @@ export interface Props {
 }
 
 const { project } = Astro.props;
+const projectTypeLabel = {
+  personal: "Personal Project",
+  work: "Work Project"
+} as const;
+
+const appTypeLabel = {
+  mobile: "Mobile",
+  web: "Web",
+  "rest-api": "REST API"
+} as const;
 ---
 <article class="project-page-detail panel">
   <div class="project-page-head">
     <div class="project-page-title">
       <div class="project-meta-row">
+        <span class={`project-type-chip project-type-chip-${project.projectType}`}>
+          {projectTypeLabel[project.projectType]}
+        </span>
+        <span class="project-type-chip project-app-chip">
+          {appTypeLabel[project.appType]}
+        </span>
         <span class="project-period-value">{project.periodShort}</span>
       </div>
       <div class="project-brand-row">
@@ -26,11 +42,6 @@ const { project } = Astro.props;
         </div>
       </div>
     </div>
-    {project.stack.length > 0 && (
-      <div class="stack-list project-stack-list">
-        {project.stack.map((item) => <span>{item}</span>)}
-      </div>
-    )}
   </div>
 
   {project.links.length > 0 && (

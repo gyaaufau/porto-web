@@ -1,30 +1,32 @@
 ---
 featured: true
+projectType: personal
+appType: mobile
 ---
 
 # OtoLog
 
-## Periode Project
+## Project Period
 
-Maret 2026 - April 2026
+March 2026 - April 2026
 
-## Ringkasan Singkat
+## Quick Summary
 
-OtoLog adalah aplikasi mobile Flutter untuk membantu pemilik kendaraan mencatat riwayat servis, memantau biaya perawatan, dan mengelola beberapa kendaraan dalam satu aplikasi. Project ini dibuat untuk menghadirkan pencatatan maintenance yang lebih rapi, mudah dicari, dan tetap bisa digunakan secara lokal tanpa bergantung pada backend.
+OtoLog is a Flutter mobile application that helps vehicle owners record service history, monitor maintenance costs, and manage multiple vehicles in one place. The project was built to provide cleaner maintenance records, easier lookup, and a fully local experience without depending on a backend.
 
-## Problem yang Diselesaikan
+## Problems Solved
 
-- Riwayat servis kendaraan sering tersebar di chat, nota fisik, atau catatan manual yang sulit dilacak kembali.
-- Pemilik kendaraan kesulitan melihat total biaya perawatan dan pola servis dari waktu ke waktu.
-- Pengelolaan beberapa kendaraan dalam satu tempat membutuhkan alur yang tetap sederhana dan cepat digunakan.
+- Vehicle service history is often scattered across chats, paper receipts, or manual notes that are hard to trace later.
+- Vehicle owners struggle to see total maintenance cost and service patterns over time.
+- Managing multiple vehicles in one place requires a flow that stays simple and fast to use.
 
-## Fitur Utama
+## Key Features
 
-- Manajemen multi-vehicle dengan detail kendaraan, kendaraan utama, dan pencarian kendaraan.
-- Pencatatan servis lengkap meliputi jenis servis, tanggal, odometer, biaya, mekanik, dan catatan tambahan.
-- Dashboard ringkas untuk melihat kendaraan aktif, ringkasan servis, dan quick actions.
-- Halaman service logs dengan pencarian, filter kendaraan, dan filter rentang tanggal.
-- Statistik servis per kendaraan menggunakan chart untuk total biaya, frekuensi, distribusi servis, dan tren pengeluaran.
+- Multi-vehicle management with vehicle details, a primary vehicle, and vehicle search.
+- Full service records covering service type, date, odometer, cost, mechanic, and extra notes.
+- A compact dashboard for active vehicles, service summaries, and quick actions.
+- A service logs page with search, vehicle filters, and date-range filters.
+- Per-vehicle service statistics with charts for total cost, frequency, service distribution, and spending trends.
 
 ## Tech Stack
 
@@ -38,11 +40,11 @@ OtoLog adalah aplikasi mobile Flutter untuk membantu pemilik kendaraan mencatat 
 - GitHub: <https://github.com/gyaaufau/otolog>
 - Play Store: <https://play.google.com/store/apps/details?id=com.gialoop.otolog>
 
-## Arsitektur Project
+## Project Architecture
 
-Project ini memakai pendekatan modular ringan dengan pemisahan `screens`, `widgets`, `cubit`, `repositories`, `database`, dan `shared`. State management ditangani oleh Cubit, dependency injection memakai GetIt, navigasi memakai GoRouter, dan persistence lokal dibangun di atas Drift/SQLite agar alur data tetap sederhana, testable, dan cocok untuk aplikasi offline-first.
+This project uses a lightweight modular approach with clear separation between `screens`, `widgets`, `cubit`, `repositories`, `database`, and `shared`. State management is handled by Cubit, dependency injection uses GetIt, navigation uses GoRouter, and local persistence is built on Drift/SQLite so the data flow stays simple, testable, and well-suited for an offline-first app.
 
-## Struktur Project
+## Project Structure
 
 ```text
 lib/
@@ -66,22 +68,22 @@ lib/
 └── widgets/
 ```
 
-## Tantangan Teknis
+## Technical Challenges
 
-### Sinkronisasi state antar screen
+### State synchronization across screens
 
-Karena data kendaraan, detail kendaraan, service logs, dan dashboard saling terhubung, tantangan utamanya adalah menjaga state tetap konsisten setelah create, update, delete, dan pergantian kendaraan aktif. Solusi yang dipakai adalah pemisahan Cubit berdasarkan tanggung jawab layar dan pemanggilan reload data yang terarah di flow navigasi utama.
+Because vehicle data, vehicle details, service logs, and the dashboard are interconnected, the main challenge was keeping state consistent after create, update, delete, and active-vehicle switch flows. The solution was to separate Cubits by screen responsibility and trigger focused data reloads in the main navigation flow.
 
-### Evolusi schema database lokal
+### Local database schema evolution
 
-Project ini berkembang dari fitur dasar menjadi aplikasi dengan kendaraan utama dan pencatatan odometer pada servis, sehingga schema database perlu ikut berubah tanpa merusak data lama. Drift dipakai bersama migration strategy bertahap agar perubahan tabel tetap aman saat versi aplikasi meningkat.
+The project grew from a basic feature set into an app with primary vehicles and odometer tracking for services, so the database schema needed to evolve without damaging existing data. Drift was used with a gradual migration strategy to keep table changes safe as the app version increased.
 
-### Menyajikan statistik yang tetap ringan di device
+### Keeping statistics lightweight on-device
 
-Statistik biaya dan frekuensi servis perlu informatif, tetapi tetap cepat dirender di aplikasi lokal. Data diolah dari record servis per kendaraan lalu divisualisasikan dengan `fl_chart`, sehingga user bisa membaca pola maintenance tanpa perlu integrasi analytics eksternal.
+Cost and service-frequency statistics needed to be informative while still rendering quickly in a local app. Data is processed from per-vehicle service records and visualized with `fl_chart`, allowing users to read maintenance patterns without external analytics integration.
 
 ## Impact
 
-- Membuat riwayat perawatan kendaraan lebih terstruktur dan mudah dicari dalam satu aplikasi.
-- Memberikan visibilitas yang lebih jelas terhadap total biaya servis dan tren maintenance.
-- Menghasilkan aplikasi portfolio Flutter yang menunjukkan kemampuan pada state management, local database, routing, localization, dan data visualization.
+- Made vehicle maintenance history more structured and easier to search in one application.
+- Provided clearer visibility into total service costs and maintenance trends.
+- Produced a Flutter portfolio app that demonstrates strength in state management, local databases, routing, localization, and data visualization.

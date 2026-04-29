@@ -1,17 +1,7 @@
 import type { ImageMetadata } from "astro";
 import myPhoto from "./myself/me.jpg";
-
-const contactMarkdown = import.meta.glob("./contact.md", {
-  query: "?raw",
-  import: "default",
-  eager: true
-}) as Record<string, string>;
-
-const aboutMarkdown = import.meta.glob("./about.md", {
-  query: "?raw",
-  import: "default",
-  eager: true
-}) as Record<string, string>;
+import contactSource from "./myself/contact.md?raw";
+import aboutSource from "./myself/about.md?raw";
 
 export type PortfolioLink = {
   label: string;
@@ -45,11 +35,16 @@ export type ProjectLogo = {
   alt: string;
 };
 
+export type ProjectType = "personal" | "work";
+export type ProjectAppType = "mobile" | "web" | "rest-api";
+
 export type ProjectItem = {
   id: string;
   title: string;
   summary: string;
   featured: boolean;
+  projectType: ProjectType;
+  appType: ProjectAppType;
   period: string;
   periodShort: string;
   stack: string[];
@@ -83,6 +78,20 @@ const humanizeSlug = (value: string) =>
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
+
+const normalizeProjectType = (value: unknown): ProjectType =>
+  String(value).toLowerCase() === "work" ? "work" : "personal";
+
+const normalizeProjectAppType = (value: unknown): ProjectAppType => {
+  const normalized = String(value).toLowerCase();
+  if (normalized === "web") {
+    return "web";
+  }
+  if (normalized === "rest-api" || normalized === "rest_api" || normalized === "api") {
+    return "rest-api";
+  }
+  return "mobile";
+};
 
 const cleanInline = (value: string) =>
   value
@@ -121,7 +130,6 @@ const parseFrontmatter = (markdown: string) => {
   };
 };
 
-const contactSource = contactMarkdown["./contact.md"] ?? "";
 const parsedContact = parseFrontmatter(contactSource);
 const contactData = {
   location: String(parsedContact.metadata.location ?? "Bandung, Indonesia"),
@@ -159,9 +167,48 @@ const splitParagraphs = (lines: string[]) => {
   return paragraphs;
 };
 
-const aboutSource = aboutMarkdown["./about.md"] ?? "";
+const extractAboutSectionBullets = (markdown: string, title: string) => {
+  const lines = markdown.split("\n");
+  const sectionTitle = `## ${title}`.toLowerCase();
+  const collected: string[] = [];
+  let inSection = false;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+
+    if (/^##\s+/.test(line)) {
+      if (line.toLowerCase() === sectionTitle) {
+        inSection = true;
+        continue;
+      }
+
+      if (inSection) {
+        break;
+      }
+    }
+
+    if (!inSection) {
+      continue;
+    }
+
+    if (/^-\s+/.test(line)) {
+      collected.push(cleanInline(line.replace(/^-\s+/, "")));
+    }
+  }
+
+  return collected;
+};
+
+const extractAboutSummary = (markdown: string) => {
+  const firstSectionIndex = markdown.search(/^##\s+/m);
+  const summarySource = firstSectionIndex === -1 ? markdown : markdown.slice(0, firstSectionIndex);
+  return splitParagraphs(summarySource.split("\n"));
+};
+
 const parsedAbout = parseFrontmatter(aboutSource);
-const aboutParagraphs = splitParagraphs(parsedAbout.body.split("\n"));
+const aboutParagraphs = extractAboutSummary(parsedAbout.body);
+const aboutSkills = extractAboutSectionBullets(parsedAbout.body, "Skills");
+const aboutTech = extractAboutSectionBullets(parsedAbout.body, "Tech");
 const aboutData = {
   name: String(parsedAbout.metadata.name ?? "Argya Aulia Fauzandika"),
   role: String(parsedAbout.metadata.role ?? "Mobile Developer (Flutter)"),
@@ -169,7 +216,9 @@ const aboutData = {
     parsedAbout.metadata.intro ??
     "I build mobile products with a focus on thoughtful Flutter architecture, smooth UX, and maintainable code that can grow with the team."
   ),
-  paragraphs: aboutParagraphs.length > 0 ? aboutParagraphs : ["Profile content will be added soon."]
+  paragraphs: aboutParagraphs.length > 0 ? aboutParagraphs : ["Profile content will be added soon."],
+  skills: aboutSkills,
+  tech: aboutTech
 };
 
 const parseSectionEntries = (body: string): ProjectSectionEntry[] => {
@@ -260,8 +309,10 @@ const parseSections = (markdown: string): ProjectSection[] => {
   });
 };
 
-const getSection = (sections: ProjectSection[], title: string) =>
-  sections.find((section) => section.title.toLowerCase() === title.toLowerCase());
+const getSection = (sections: ProjectSection[], ...titles: string[]) => {
+  const normalizedTitles = titles.map((title) => title.toLowerCase());
+  return sections.find((section) => normalizedTitles.includes(section.title.toLowerCase()));
+};
 
 const firstParagraph = (section?: ProjectSection) =>
   section?.entries.flatMap((entry) => entry.paragraphs).find(Boolean) ?? "";
@@ -310,6 +361,12 @@ const shortenPeriod = (period: string) =>
     (month) => monthShortMap[month] ?? month
   );
 
+const hiddenSectionTitles = new Set([
+  "project period",
+  "periode project",
+  "repository"
+]);
+
 const screenshotsByProject = Object.entries(screenshotFiles).reduce<Record<string, ProjectScreenshot[]>>(
   (acc, [path, image]) => {
     const slug = path.match(/\.\/project\/([^/]+)\//)?.[1];
@@ -355,25 +412,27 @@ const projectItems: ProjectItem[] = Object.entries(markdownFiles)
     const { metadata, body } = parseFrontmatter(markdown);
     const title = cleanInline(body.match(/^#\s+(.+)$/m)?.[1] ?? humanizeSlug(slug));
     const sections = parseSections(body);
-    const period = firstParagraph(getSection(sections, "Periode Project")) || "In progress";
+    const period = firstParagraph(getSection(sections, "Project Period", "Periode Project")) || "In progress";
     const shortVersion =
-      firstParagraph(getSection(sections, "Versi Singkat untuk Portofolio")) ||
-      firstParagraph(getSection(sections, "Ringkasan Singkat")) ||
+      firstParagraph(getSection(sections, "Short Portfolio Version", "Versi Singkat untuk Portofolio")) ||
+      firstParagraph(getSection(sections, "Quick Summary", "Ringkasan Singkat")) ||
       "Project details will be added soon.";
-    const highlight = firstParagraph(getSection(sections, "Problem yang Diselesaikan")) || shortVersion;
+    const highlight =
+      firstParagraph(getSection(sections, "Problem Solved", "Problems Solved", "Problem yang Diselesaikan")) ||
+      shortVersion;
     const details =
-      firstBullets(getSection(sections, "Fitur Utama"), 4).length > 0
-        ? firstBullets(getSection(sections, "Fitur Utama"), 4)
-        : firstBullets(getSection(sections, "Versi Menengah untuk CV atau LinkedIn"), 4);
-    const visibleSections = sections.filter(
-      (section) => !["periode project", "repository"].includes(section.title.toLowerCase())
-    );
+      firstBullets(getSection(sections, "Key Features", "Fitur Utama"), 4).length > 0
+        ? firstBullets(getSection(sections, "Key Features", "Fitur Utama"), 4)
+        : firstBullets(getSection(sections, "Medium Version for CV or LinkedIn", "Versi Menengah untuk CV atau LinkedIn"), 4);
+    const visibleSections = sections.filter((section) => !hiddenSectionTitles.has(section.title.toLowerCase()));
 
     return {
       id: slug,
       title,
       summary: shortVersion,
       featured: metadata.featured === true,
+      projectType: normalizeProjectType(metadata.projectType),
+      appType: normalizeProjectAppType(metadata.appType),
       period,
       periodShort: shortenPeriod(period),
       stack: collectStack(getSection(sections, "Tech Stack")),
@@ -395,6 +454,8 @@ const fallbackProjects = ["otolog", "shou"]
     title: humanizeSlug(slug),
     summary: "Details will be added soon.",
     featured: false,
+    projectType: "personal",
+    appType: "mobile",
     period: "In progress",
     periodShort: "In progress",
     stack: [],
@@ -423,34 +484,18 @@ export const portfolio = {
   location: contactData.location,
   intro: aboutData.intro,
   about: aboutData.paragraphs,
+  skills: aboutData.skills,
+  tech: aboutData.tech,
   photo: {
     src: myPhoto.src,
     alt: "Portrait of Argya Aulia Fauzandika"
   },
   heroLinks: [
     {
-      label: "Download CV",
-      href: contactData.cv,
+      label: "View my work",
+      href: "#projects",
       kind: "primary",
-      note: "Link loaded from contact.md."
-    },
-    {
-      label: "GitHub",
-      href: contactData.github,
-      kind: "secondary",
-      note: "Link loaded from contact.md."
-    },
-    {
-      label: "LinkedIn",
-      href: contactData.linkedin,
-      kind: "secondary",
-      note: "Link loaded from contact.md."
-    },
-    {
-      label: "Play Store",
-      href: contactData.playStore,
-      kind: "secondary",
-      note: "Link loaded from contact.md."
+      note: "Jump to selected work."
     }
   ] satisfies PortfolioLink[],
   directoryLinks: [
@@ -461,9 +506,9 @@ export const portfolio = {
       caption: "Public download link for your latest resume."
     },
     {
-      title: "Play Console",
+      title: "Play Store Developer",
       value: "Developer profile",
-      href: contactData.playConsole,
+      href: contactData.playStore,
       caption: "Publisher or app listing link."
     },
     {

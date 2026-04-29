@@ -38,8 +38,8 @@ const { name, role, intro, location, links, photo } = Astro.props;
           <a
             class:list={["button-link", link.kind === "primary" ? "primary" : "secondary"]}
             href={link.href}
-            target="_blank"
-            rel="noreferrer"
+            target={link.href.startsWith("#") ? undefined : "_blank"}
+            rel={link.href.startsWith("#") ? undefined : "noreferrer"}
             title={link.note}
           >
             {link.label}
