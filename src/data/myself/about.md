@@ -1,7 +1,7 @@
 ---
 name: Argya Aulia Fauzandika
-role: Mobile Developer (Flutter)
-intro: I build mobile products with a focus on thoughtful Flutter architecture, smooth UX, and maintainable code that can grow with the team.
+role: Flutter Mobile Engineer
+intro: I design and build production-ready Flutter apps with clean architecture, polished UX, and codebases that stay easy to scale.
 ---
 
 Flutter developer since 2021 with hands-on experience building maintainable, production-ready mobile apps. Strong in clean architecture, scalable code structure, and polished user experience, with the ability to deliver effectively both independently and in team environments.

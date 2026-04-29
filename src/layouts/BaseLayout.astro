@@ -5,9 +5,12 @@ import logo from "../data/brand/logo-loop.svg";
 export interface Props {
   title: string;
   description: string;
+  ogTitle?: string;
+  ogDescription?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogTitle = title, ogDescription = description } = Astro.props;
+const canonicalUrl = Astro.url;
 ---
 <!doctype html>
 <html lang="en">
@@ -16,6 +19,15 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:site_name" content="Argya Aulia Fauzandika" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <link rel="icon" type="image/svg+xml" href={logo.src} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
