@@ -11,10 +11,12 @@ order: 3
 # Litbang TNI AU
 
 ## Summary
-Built a secure Flutter-based digital correspondence platform for Litbang TNI AU to replace manual workflows with a more streamlined internal process.
+
+Built a secure Flutter-based digital correspondence platform for Litbang TNI AU.
 
 ## Highlights
-- Developed a secure digital correspondence platform that replaced manual workflows with a streamlined digital solution.
-- Collaborated closely with the Product Manager and UI/UX Designer to align features with business and user requirements.
-- Integrated backend APIs to support secure data synchronization and digital signature validation.
-- Built document routing and tracking systems that improved transparency and efficiency in official communication processes.
+
+- Built a digital correspondence platform to replace manual workflows.
+- Worked with PM and UI/UX to align features with requirements.
+- Integrated APIs for data sync and digital signatures.
+- Implemented document routing and tracking for better transparency and efficiency.

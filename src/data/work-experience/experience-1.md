@@ -12,11 +12,10 @@ order: 1
 
 ## Summary
 
-Worked as a part-time Flutter developer to help shape an event management platform that connected organizers with service providers.
+Worked part-time as a Flutter developer on an event management platform connecting organizers with service providers.
 
 ## Highlights
 
-- Architected and developed a high-fidelity prototype for an event management platform connecting organizers with service providers.
-- Collaborated with cross-functional teams to translate complex UI/UX designs and business requirements into a scalable mobile application.
-- Implemented core features such as event listings, vendor discovery, and coordination workflows to validate the platform marketplace model.
-- Successfully delivered an MVP in a rapid development cycle, enabling early-stage product validation and stakeholder feedback.
+- Built a prototype event management app connecting organizers with service providers.
+- Translated UI/UX designs and requirements into a functional mobile application.
+- Delivered an MVP for early validation and feedback.

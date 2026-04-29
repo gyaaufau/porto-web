@@ -12,9 +12,4 @@ order: 2
 
 ## Summary
 
-Led the UI/UX redesign for an online course website and LMS to improve student engagement and make learning content easier to access.
-
-## Highlights
-
-- Spearheaded the comprehensive UI/UX redesign of an online course website and Learning Management System (LMS) to enhance student engagement and content accessibility.
-- Revamped user journeys, wireframes, and high-fidelity interfaces, resulting in a more intuitive, modern, and user-centric learning platform.
+Led the UI/UX redesign of an online course website and LMS, improving user flows, usability, and content accessibility.

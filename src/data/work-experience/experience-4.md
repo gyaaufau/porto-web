@@ -12,9 +12,4 @@ order: 4
 
 ## Summary
 
-Designed the UI/UX for the Partnership section of the company landing page with a focus on clarity, hierarchy, and a smoother user journey.
-
-## Highlights
-
-- Designed the UI/UX for the "Partnership" section of the company's landing page, focusing on an intuitive user journey, visual hierarchy,
-and cohesive brand identity to drive engagement.
+Designed the UI/UX for the Partnership section of the landing page, improving clarity, hierarchy, and user flow.
