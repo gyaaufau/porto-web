@@ -4,21 +4,25 @@ projectType: work
 appType: mobile
 ---
 
-# Litbang AU App
+# Litbang TNI AU App
 
 ## Project Period
+
 August 2025 - September 2025
 
 ## Quick Summary
-Litbang AU App is an internal Flutter application built to support document distribution, follow-up actions, approvals, and cross-role tracking within the Litbang AU environment.
+
+Litbang TNI AU App is an internal Flutter application built to support document distribution, follow-up actions, approvals, and cross-role tracking within the Litbang TNI AU environment.
 
 ## Problems Solved
+
 - Internal document distribution was still slow because many steps were handled manually.
 - Document status was difficult to monitor end to end.
 - Cross-role coordination for reading, approving, and following up on documents was not efficient.
 - Files and response history were scattered, increasing the risk of miscommunication.
 
 ## Key Features
+
 - Authentication and session handling with secure storage.
 - Document lists with categories such as `TANDA_TANGAN`, `INFORMASI`, and `TINDAK_LANJUT`.
 - Document detail views containing files, involved parties, and process history.
@@ -27,6 +31,7 @@ Litbang AU App is an internal Flutter application built to support document dist
 - Multi-environment setup for `development`, `staging`, and `production`.
 
 ## Tech Stack
+
 - Flutter
 - Dart
 - `flutter_bloc`
@@ -40,9 +45,11 @@ Litbang AU App is an internal Flutter application built to support document dist
 - Cloud Firestore
 
 ## Project Architecture
+
 This project uses a feature-based modular approach. The main layers are separated into feature areas, shared utilities, resources, and app configuration, making business logic, dependencies, storage, and UI components easier to maintain and extend. This structure helps the project stay scalable as the number of modules, workflows, and roles grows.
 
 ## Project Structure
+
 Main folder structure:
 
 ```text
@@ -88,16 +95,21 @@ lib/
 ```
 
 ## Technical Challenges
+
 ### State synchronization after actions
+
 After a user accepts, signs, forwards, or responds to a document, the detail view must refresh so the UI stays consistent with the latest status.
 
 ### File download lifecycle
+
 The download flow needs to handle retries, local cache checks, save-location selection, and direct file opening from the device.
 
 ### Auth-driven routing
+
 Navigation must adapt to the token check result during startup so the splash, login, and main shell remain synchronized with the authentication state.
 
 ## Impact
+
 - Digitized the internal document flow with role-based workflows.
 - Accelerated document distribution and follow-up processes.
 - Improved visibility into read status, approvals, and process history.
