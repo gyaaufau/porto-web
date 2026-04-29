@@ -28,16 +28,22 @@ export type ProjectSection = {
 export type ProjectScreenshot = {
   src: string;
   alt: string;
+  width: number;
+  height: number;
 };
 
 export type ProjectLogo = {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
 };
 
 export type CertificateImage = {
   src: string;
   alt: string;
+  width: number;
+  height: number;
 };
 
 export type CertificateItem = {
@@ -493,7 +499,9 @@ const screenshotsByProject = Object.entries(screenshotFiles).reduce<Record<strin
     acc[slug] ??= [];
     acc[slug].push({
       src: image.default.src,
-      alt: `${humanizeSlug(slug)} screenshot ${acc[slug].length + 1}`
+      alt: `${humanizeSlug(slug)} screenshot ${acc[slug].length + 1}`,
+      width: image.default.width,
+      height: image.default.height
     });
     return acc;
   },
@@ -513,7 +521,9 @@ const logosByProject = Object.entries(logoFiles).reduce<Record<string, ProjectLo
   const src = typeof asset.default === "string" ? asset.default : asset.default.src;
   acc[slug] = {
     src,
-    alt: `${humanizeSlug(slug)} logo`
+    alt: `${humanizeSlug(slug)} logo`,
+    width: typeof asset.default === "string" ? undefined : asset.default.width,
+    height: typeof asset.default === "string" ? undefined : asset.default.height
   };
   return acc;
 }, {});
@@ -527,7 +537,9 @@ const imagesByCertification = Object.entries(certificationImageFiles).reduce<Rec
 
     acc[slug] = {
       src: image.default.src,
-      alt: `${humanizeSlug(slug)} certificate preview`
+      alt: `${humanizeSlug(slug)} certificate preview`,
+      width: image.default.width,
+      height: image.default.height
     };
     return acc;
   },
@@ -672,7 +684,9 @@ export const portfolio = {
   softSkills: aboutData.softSkills,
   photo: {
     src: myPhoto.src,
-    alt: "Portrait of Argya Aulia Fauzandika"
+    alt: "Portrait of Argya Aulia Fauzandika",
+    width: myPhoto.width,
+    height: myPhoto.height
   },
   heroLinks: [
     {

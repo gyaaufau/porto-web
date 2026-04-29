@@ -1,0 +1,26 @@
+# Gialoop
+
+> Gialoop is the portfolio of Argya Aulia Fauzandika, a Flutter developer in Bandung who builds scalable mobile apps with clean architecture, polished UX, and production-ready delivery.
+
+## Primary entity
+- Brand: Gialoop
+- Person: Argya Aulia Fauzandika
+- Role: Flutter Developer
+- Location: Bandung, Indonesia
+
+## Important URLs
+- Home: https://www.gialoop.site/
+- Projects: https://www.gialoop.site/projects
+- Certificates: https://www.gialoop.site/certificates
+- Blog: https://www.gialoop.site/blog
+- Article: https://www.gialoop.site/blog/how-to-build-scalable-flutter-app-architecture
+
+## Topics
+- Flutter development
+- Mobile app architecture
+- Clean architecture
+- REST API integration
+- Mobile performance optimization
+
+## Contact
+- Email: argyaauliaf@gmail.com

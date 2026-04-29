@@ -1,19 +1,23 @@
 ---
-import logo from "../data/brand/logo.svg";
+import logoDark from "../data/brand/logo.svg";
+import logoLight from "../data/brand/logo-light.svg";
 
+const isHomePage = Astro.url.pathname === "/";
+const sectionHref = (section: string) => (isHomePage ? section : `/${section}`);
 const navItems = [
-  { label: "Home", href: "#top" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#work-experience" },
-  { label: "About", href: "#about" },
-  { label: "Certificates", href: "#certificates" },
-  { label: "Contact", href: "#contact" }
+  { label: "Home", href: isHomePage ? "#top" : "/" },
+  { label: "Projects", href: sectionHref("#projects") },
+  { label: "Experience", href: sectionHref("#work-experience") },
+  { label: "About", href: sectionHref("#about") },
+  { label: "Certificates", href: sectionHref("#certificates") },
+  { label: "Contact", href: sectionHref("#contact") }
 ];
 ---
 <nav class="navbar panel" aria-label="Primary">
   <div class="navbar-top">
-    <a class="navbar-brand" href="#top">
-      <img class="navbar-brand-logo" src={logo.src} alt="gialoop logo" />
+    <a class="navbar-brand" href={isHomePage ? "#top" : "/"}>
+      <img class="navbar-brand-logo navbar-brand-logo-dark" src={logoDark.src} alt="gialoop logo" />
+      <img class="navbar-brand-logo navbar-brand-logo-light" src={logoLight.src} alt="gialoop logo" />
     </a>
 
     <button
@@ -38,8 +42,17 @@ const navItems = [
         </a>
       ))
     }
-    <button class="theme-toggle" type="button" aria-label="Switch to light mode" data-theme-toggle>
-      <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+    <button
+      class="theme-toggle"
+      type="button"
+      role="switch"
+      aria-checked="false"
+      aria-label="Switch to light mode"
+      data-theme-toggle
+    >
+      <span class="theme-toggle-track" aria-hidden="true">
+        <span class="theme-toggle-thumb"></span>
+      </span>
       <span class="theme-toggle-label">Dark</span>
     </button>
   </div>
@@ -65,10 +78,13 @@ const navItems = [
   };
 
   const setActiveLink = () => {
-    const currentHash = window.location.hash || "#top";
+    const currentPath = `${window.location.pathname}${window.location.hash || ""}`;
 
     navLinks.forEach((link) => {
-      const active = link.getAttribute("href") === currentHash;
+      const href = link.getAttribute("href") ?? "";
+      const active =
+        href === currentPath ||
+        (href === "/" && (window.location.pathname === "/" || window.location.pathname === ""));
       link.toggleAttribute("data-active", active);
       link.setAttribute("aria-current", active ? "page" : "false");
     });
@@ -82,7 +98,9 @@ const navItems = [
 
     const nextTheme = theme === "dark" ? "light" : "dark";
     themeToggleLabel.textContent = theme === "dark" ? "Dark" : "Light";
+    themeToggle.setAttribute("aria-checked", theme === "light" ? "true" : "false");
     themeToggle.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
+    themeToggle.dataset.themeState = theme;
   };
 
   navToggle?.addEventListener("click", () => {

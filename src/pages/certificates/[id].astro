@@ -2,6 +2,7 @@
 import CertificateDetailView from "../../components/CertificateDetailView.astro";
 import Navbar from "../../components/Navbar.astro";
 import { portfolioCertificates } from "../../data/portfolio";
+import { absoluteUrl } from "../../data/seo";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -12,10 +13,23 @@ export function getStaticPaths() {
 }
 
 const { certificate } = Astro.props;
+const certificateSchema = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOccupationalCredential",
+  name: certificate.title,
+  description: certificate.summary,
+  url: absoluteUrl(`/certificates/${certificate.id}`),
+  credentialCategory: certificate.type,
+  recognizedBy: {
+    "@type": "Organization",
+    name: certificate.issuer
+  }
+};
 ---
 <BaseLayout
-  title={`${certificate.title} | Argya Aulia Fauzandika`}
+  title={`${certificate.title} | Gialoop`}
   description={certificate.summary}
+  structuredData={certificateSchema}
 >
   <main class="page-shell">
     <Navbar />

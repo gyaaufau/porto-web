@@ -26,7 +26,14 @@ const { certificate } = Astro.props;
 
   {certificate.image && (
     <div class="certificate-detail-preview">
-      <img src={certificate.image.src} alt={certificate.image.alt} loading="lazy" />
+      <img
+        src={certificate.image.src}
+        alt={certificate.image.alt}
+        width={certificate.image.width}
+        height={certificate.image.height}
+        loading="lazy"
+        decoding="async"
+      />
     </div>
   )}
 

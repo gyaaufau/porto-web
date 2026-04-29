@@ -2,11 +2,26 @@
 import Certificates from "../../components/Certificates.astro";
 import Navbar from "../../components/Navbar.astro";
 import { portfolioCertificates } from "../../data/portfolio";
+import { absoluteUrl, siteConfig } from "../../data/seo";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Certificates | Gialoop",
+  url: absoluteUrl("/certificates"),
+  description: "Certificate archive for Argya Aulia Fauzandika, including Flutter training and developer conference credentials.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl
+  }
+};
 ---
 <BaseLayout
-  title="All Certificates | Argya Aulia Fauzandika"
-  description="Complete certificate archive for Argya Aulia Fauzandika."
+  title="Certificates | Gialoop"
+  description="Certificate archive covering Flutter training, developer conferences, and professional learning milestones."
+  structuredData={collectionSchema}
 >
   <main class="page-shell">
     <Navbar />

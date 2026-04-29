@@ -47,7 +47,15 @@ const appTypeLabel = {
           <div class="project-card-title-row">
             <div class="project-card-brand">
               {project.logo ? (
-                <img class="project-card-logo" src={project.logo.src} alt={project.logo.alt} loading="lazy" />
+                <img
+                  class="project-card-logo"
+                  src={project.logo.src}
+                  alt={project.logo.alt}
+                  width={project.logo.width}
+                  height={project.logo.height}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div class="project-card-logo project-card-logo-fallback" aria-hidden="true">
                   {project.title.slice(0, 1)}

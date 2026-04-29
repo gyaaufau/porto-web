@@ -1,0 +1,63 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { absoluteUrl, siteConfig, websiteSchema } from "../../data/seo";
+
+const article = {
+  title: "How to Build Scalable Flutter App Architecture",
+  href: "/blog/how-to-build-scalable-flutter-app-architecture",
+  description:
+    "A practical guide to structuring Flutter apps with features, clean architecture boundaries, state management, and performance-minded delivery."
+};
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Gialoop Blog",
+  url: absoluteUrl("/blog"),
+  description: "Technical writing, Flutter portfolio insights, and mobile engineering notes from Gialoop.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl
+  }
+};
+---
+<BaseLayout
+  title="Blog | Gialoop"
+  description="Technical writing and Flutter engineering notes from Gialoop."
+  ogTitle="Blog | Gialoop"
+  ogDescription="Read Flutter engineering articles and portfolio insights from Gialoop."
+  structuredData={[websiteSchema, blogSchema]}
+>
+  <main class="page-shell">
+    <Navbar />
+
+    <section class="project-page-top panel">
+      <a class="back-link" href="/">back / home</a>
+    </section>
+
+    <section class="blog-index-page panel">
+      <div class="blog-index-head">
+        <p class="section-eyebrow">blog</p>
+        <h1>Technical writing from Gialoop.</h1>
+        <p>
+          Articles here are written to answer practical Flutter questions with clear structure, direct takeaways,
+          and examples that are easy for humans and search engines to understand.
+        </p>
+      </div>
+
+      <article class="blog-card panel">
+        <p class="terminal-line">[featured article]</p>
+        <h2>
+          <a href={article.href}>{article.title}</a>
+        </h2>
+        <p>{article.description}</p>
+        <div class="blog-card-actions">
+          <a class="button-link secondary" href={article.href}>Read article</a>
+          <a class="button-link secondary" href="/projects">See project archive</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

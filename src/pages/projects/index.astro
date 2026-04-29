@@ -2,11 +2,26 @@
 import Navbar from "../../components/Navbar.astro";
 import Projects from "../../components/Projects.astro";
 import { portfolioProjects } from "../../data/portfolio";
+import { absoluteUrl, siteConfig } from "../../data/seo";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Flutter Projects by Gialoop",
+  url: absoluteUrl("/projects"),
+  description: "Project archive for Argya Aulia Fauzandika, featuring Flutter apps and mobile product work.",
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl
+  }
+};
 ---
 <BaseLayout
-  title="All Projects | Argya Aulia Fauzandika"
-  description="Complete project archive for Argya Aulia Fauzandika."
+  title="Flutter Projects | Gialoop"
+  description="Project archive featuring Flutter apps, internal tools, and mobile product work by Gialoop."
+  structuredData={collectionSchema}
 >
   <main class="page-shell">
     <Navbar />

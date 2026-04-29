@@ -2,6 +2,7 @@
 import Navbar from "../../components/Navbar.astro";
 import ProjectDetailView from "../../components/ProjectDetailView.astro";
 import { portfolioProjects } from "../../data/portfolio";
+import { absoluteUrl } from "../../data/seo";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -12,10 +13,23 @@ export function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+const projectSchema = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: project.title,
+  description: project.summary,
+  url: absoluteUrl(`/projects/${project.id}`),
+  creator: {
+    "@type": "Person",
+    name: "Argya Aulia Fauzandika"
+  },
+  keywords: project.stack.join(", ")
+};
 ---
 <BaseLayout
-  title={`${project.title} | Argya Aulia Fauzandika`}
+  title={`${project.title} | Gialoop`}
   description={project.summary}
+  structuredData={projectSchema}
 >
   <main class="page-shell">
     <Navbar />

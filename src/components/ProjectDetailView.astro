@@ -31,7 +31,15 @@ const appTypeLabel = {
       </div>
       <div class="project-brand-row">
         {project.logo ? (
-          <img class="project-detail-logo" src={project.logo.src} alt={project.logo.alt} loading="lazy" />
+          <img
+            class="project-detail-logo"
+            src={project.logo.src}
+            alt={project.logo.alt}
+            width={project.logo.width}
+            height={project.logo.height}
+            loading="lazy"
+            decoding="async"
+          />
         ) : (
           <div class="project-detail-logo project-detail-logo-fallback" aria-hidden="true">
             {project.title.slice(0, 1)}
@@ -60,7 +68,18 @@ const appTypeLabel = {
 
   {project.screenshots.length > 0 && (
     <div class="project-gallery">
-      {project.screenshots.map((image) => <img src={image.src} alt={image.alt} loading="lazy" />)}
+      {
+        project.screenshots.map((image) => (
+          <img
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            decoding="async"
+          />
+        ))
+      }
     </div>
   )}
 

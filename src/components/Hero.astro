@@ -10,6 +10,8 @@ export interface Props {
   photo: {
     src: string;
     alt: string;
+    width: number;
+    height: number;
   };
 }
 
@@ -54,7 +56,16 @@ const isExternalLink = (href: string) => href.startsWith("http://") || href.star
     <div class="portrait-shell">
       {
         photo.src ? (
-          <img class="portrait-image" src={photo.src} alt={photo.alt} />
+          <img
+            class="portrait-image"
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
         ) : (
           <div class="portrait-fallback" aria-label={photo.alt}>
             <span>photo</span>
