@@ -1,0 +1,28 @@
+---
+import Certificates from "../../components/Certificates.astro";
+import Navbar from "../../components/Navbar.astro";
+import { portfolioCertificates } from "../../data/portfolio";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="All Certificates | Argya Aulia Fauzandika"
+  description="Complete certificate archive for Argya Aulia Fauzandika."
+>
+  <main class="page-shell">
+    <Navbar />
+
+    <section class="project-page-top panel">
+      <a class="back-link" href="/#certificates">back / home</a>
+    </section>
+
+    <section class="project-archive-page panel">
+      <div class="project-archive-head">
+        <p class="section-eyebrow">all certificates</p>
+        <h1>Certificate archive.</h1>
+        <p>Featured and regular certificates are collected here. Featured items are marked directly on the card.</p>
+      </div>
+
+      <Certificates certificates={portfolioCertificates} showFeaturedChip={true} />
+    </section>
+  </main>
+</BaseLayout>

@@ -14,6 +14,7 @@ export interface Props {
 }
 
 const { name, role, intro, location, links, photo } = Astro.props;
+const isExternalLink = (href: string) => href.startsWith("http://") || href.startsWith("https://");
 ---
 <header class="hero">
   <div class="hero-copy panel">
@@ -38,8 +39,8 @@ const { name, role, intro, location, links, photo } = Astro.props;
           <a
             class:list={["button-link", link.kind === "primary" ? "primary" : "secondary"]}
             href={link.href}
-            target={link.href.startsWith("#") ? undefined : "_blank"}
-            rel={link.href.startsWith("#") ? undefined : "noreferrer"}
+            target={isExternalLink(link.href) ? "_blank" : undefined}
+            rel={isExternalLink(link.href) ? "noreferrer" : undefined}
             title={link.note}
           >
             {link.label}

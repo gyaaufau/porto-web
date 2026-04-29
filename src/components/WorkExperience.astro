@@ -1,0 +1,37 @@
+---
+import type { WorkExperienceItem } from "../data/portfolio";
+
+export interface Props {
+  experiences: WorkExperienceItem[];
+}
+
+const { experiences } = Astro.props;
+const displayExperiences = [...experiences].sort((left, right) => right.order - left.order);
+---
+<div class="work-experience-shell">
+  <div class="work-experience-list">
+    {
+      displayExperiences.map((experience) => (
+        <article class="work-experience-card">
+          <div class="work-experience-top">
+            <div>
+              <h3>{experience.company}</h3>
+            </div>
+            <span class="work-experience-period">{experience.period}</span>
+          </div>
+
+          <div class="work-experience-meta">
+            <span>{experience.role}</span>
+            <span>{experience.location}</span>
+          </div>
+
+          <p class="work-experience-summary">{experience.summary}</p>
+
+          <ul class="work-experience-points">
+            {experience.highlights.map((highlight) => <li>{highlight}</li>)}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</div>

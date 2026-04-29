@@ -1,0 +1,61 @@
+---
+import type { CertificateItem } from "../data/portfolio";
+
+export interface Props {
+  certificate: CertificateItem;
+}
+
+const { certificate } = Astro.props;
+---
+<article class="project-page-detail panel">
+  <div class="certificate-detail-head">
+    <div class="project-meta-row">
+      <span class="certificate-type-chip">{certificate.type}</span>
+      <span class="project-period-value">{certificate.issued}</span>
+    </div>
+
+    <div class="certificate-detail-title">
+      <div class="certificate-detail-copy">
+        <h1>{certificate.title}</h1>
+        <p class="certificate-detail-issuer">{certificate.issuer}</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="project-page-summary">{certificate.summary}</p>
+
+  {certificate.image && (
+    <div class="certificate-detail-preview">
+      <img src={certificate.image.src} alt={certificate.image.alt} loading="lazy" />
+    </div>
+  )}
+
+  <div class="project-sections">
+    <section class="project-content-section">
+      <h2>Issuer</h2>
+      <div class="project-content-entry">
+        <ul class="detail-points">
+          {certificate.issuerNotes.map((note) => <li>{note}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    {certificate.details.length > 0 && (
+      <section class="project-content-section">
+        <h2>What This Certificate Represents</h2>
+        <div class="project-content-entry">
+          <ul class="detail-points">
+            {certificate.details.map((detail) => <li>{detail}</li>)}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <section class="project-content-section">
+      <h2>Relevance</h2>
+      <div class="project-content-entry">
+        <p>{certificate.relevance}</p>
+      </div>
+    </section>
+  </div>
+</article>

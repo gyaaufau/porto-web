@@ -1,0 +1,48 @@
+---
+import type { CertificateItem } from "../data/portfolio";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  showFeaturedChip?: boolean;
+  certificates: CertificateItem[];
+}
+
+const { title, description, showFeaturedChip = false, certificates } = Astro.props;
+---
+<div class="certificates-shell">
+  {(title || description) && (
+    <div class="projects-group-head">
+      {title && <h3>{title}</h3>}
+      {description && <p>{description}</p>}
+    </div>
+  )}
+
+  <div class="certificate-list" aria-label="Certificates">
+    {
+      certificates.map((certificate) => (
+        <a class="certificate-card" href={`/certificates/${certificate.id}`}>
+          <div class="certificate-card-top">
+            <div class="certificate-card-meta">
+              {showFeaturedChip && certificate.featured && <span class="project-featured-chip">Featured</span>}
+              <span class="certificate-type-chip">{certificate.type}</span>
+            </div>
+            <span class="certificate-issued">{certificate.issued}</span>
+          </div>
+
+          {certificate.image ? (
+            <div class="certificate-card-preview">
+              <img src={certificate.image.src} alt={certificate.image.alt} loading="lazy" />
+            </div>
+          ) : null}
+
+          <div class="certificate-card-copy">
+            <h3>{certificate.title}</h3>
+            <p class="certificate-card-issuer">{certificate.issuer}</p>
+            <p class="certificate-card-summary">{certificate.summary}</p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</div>

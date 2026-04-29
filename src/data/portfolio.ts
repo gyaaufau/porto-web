@@ -35,6 +35,37 @@ export type ProjectLogo = {
   alt: string;
 };
 
+export type CertificateImage = {
+  src: string;
+  alt: string;
+};
+
+export type CertificateItem = {
+  id: string;
+  title: string;
+  featured: boolean;
+  issuer: string;
+  issued: string;
+  type: string;
+  summary: string;
+  details: string[];
+  relevance: string;
+  issuerNotes: string[];
+  image?: CertificateImage;
+};
+
+export type WorkExperienceItem = {
+  company: string;
+  location: string;
+  role: string;
+  start: string;
+  end: string;
+  period: string;
+  order: number;
+  summary: string;
+  highlights: string[];
+};
+
 export type ProjectType = "personal" | "work";
 export type ProjectAppType = "mobile" | "web" | "rest-api";
 
@@ -65,7 +96,23 @@ const markdownFiles = import.meta.glob("./project/*/project.md", {
   eager: true
 }) as Record<string, string>;
 
+const workExperienceFiles = import.meta.glob("./work-experience/experience-*.md", {
+  query: "?raw",
+  import: "default",
+  eager: true
+}) as Record<string, string>;
+
+const certificationFiles = import.meta.glob("./certifications/*/certificate.md", {
+  query: "?raw",
+  import: "default",
+  eager: true
+}) as Record<string, string>;
+
 const screenshotFiles = import.meta.glob("./project/*/screenshots/*.{png,jpg,jpeg,JPG,JPEG,webp,WEBP}", {
+  eager: true
+}) as Record<string, { default: ImageMetadata }>;
+
+const certificationImageFiles = import.meta.glob("./certifications/*/certificate.{png,jpg,jpeg,JPG,JPEG,webp,WEBP}", {
   eager: true
 }) as Record<string, { default: ImageMetadata }>;
 
@@ -139,7 +186,7 @@ const contactData = {
   linkedin: String(parsedContact.metadata.linkedin ?? "https://linkedin.com/"),
   playStore: String(parsedContact.metadata.playStore ?? "https://play.google.com/store/"),
   playConsole: String(parsedContact.metadata.playConsole ?? "https://play.google.com/console/"),
-  cv: String(parsedContact.metadata.cv ?? "https://drive.google.com/")
+  cv: String(parsedContact.metadata.cv ?? "/cv")
 };
 
 const splitParagraphs = (lines: string[]) => {
@@ -165,6 +212,68 @@ const splitParagraphs = (lines: string[]) => {
   }
 
   return paragraphs;
+};
+
+const extractSectionParagraphs = (markdown: string, title: string) => {
+  const lines = markdown.split("\n");
+  const sectionTitle = `## ${title}`.toLowerCase();
+  const collected: string[] = [];
+  let inSection = false;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+
+    if (/^##\s+/.test(line)) {
+      if (line.toLowerCase() === sectionTitle) {
+        inSection = true;
+        continue;
+      }
+
+      if (inSection) {
+        break;
+      }
+    }
+
+    if (!inSection || !line || /^-\s+/.test(line)) {
+      continue;
+    }
+
+    collected.push(cleanInline(line));
+  }
+
+  return splitParagraphs(collected);
+};
+
+const extractSectionBullets = (markdown: string, title: string) => {
+  const lines = markdown.split("\n");
+  const sectionTitle = `## ${title}`.toLowerCase();
+  const collected: string[] = [];
+  let inSection = false;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+
+    if (/^##\s+/.test(line)) {
+      if (line.toLowerCase() === sectionTitle) {
+        inSection = true;
+        continue;
+      }
+
+      if (inSection) {
+        break;
+      }
+    }
+
+    if (!inSection) {
+      continue;
+    }
+
+    if (/^-\s+/.test(line)) {
+      collected.push(cleanInline(line.replace(/^-\s+/, "")));
+    }
+  }
+
+  return collected;
 };
 
 const extractAboutSectionBullets = (markdown: string, title: string) => {
@@ -209,6 +318,7 @@ const parsedAbout = parseFrontmatter(aboutSource);
 const aboutParagraphs = extractAboutSummary(parsedAbout.body);
 const aboutSkills = extractAboutSectionBullets(parsedAbout.body, "Skills");
 const aboutTech = extractAboutSectionBullets(parsedAbout.body, "Tech");
+const aboutSoftSkills = extractAboutSectionBullets(parsedAbout.body, "Soft Skill");
 const aboutData = {
   name: String(parsedAbout.metadata.name ?? "Argya Aulia Fauzandika"),
   role: String(parsedAbout.metadata.role ?? "Mobile Developer (Flutter)"),
@@ -218,7 +328,8 @@ const aboutData = {
   ),
   paragraphs: aboutParagraphs.length > 0 ? aboutParagraphs : ["Profile content will be added soon."],
   skills: aboutSkills,
-  tech: aboutTech
+  tech: aboutTech,
+  softSkills: aboutSoftSkills
 };
 
 const parseSectionEntries = (body: string): ProjectSectionEntry[] => {
@@ -361,6 +472,11 @@ const shortenPeriod = (period: string) =>
     (month) => monthShortMap[month] ?? month
   );
 
+const parseSortableDate = (value: string) => {
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
 const hiddenSectionTitles = new Set([
   "project period",
   "periode project",
@@ -401,6 +517,22 @@ const logosByProject = Object.entries(logoFiles).reduce<Record<string, ProjectLo
   };
   return acc;
 }, {});
+
+const imagesByCertification = Object.entries(certificationImageFiles).reduce<Record<string, CertificateImage>>(
+  (acc, [path, image]) => {
+    const slug = path.match(/\.\/certifications\/([^/]+)\//)?.[1];
+    if (!slug || acc[slug]) {
+      return acc;
+    }
+
+    acc[slug] = {
+      src: image.default.src,
+      alt: `${humanizeSlug(slug)} certificate preview`
+    };
+    return acc;
+  },
+  {}
+);
 
 const projectItems: ProjectItem[] = Object.entries(markdownFiles)
   .map(([path, markdown]) => {
@@ -447,6 +579,37 @@ const projectItems: ProjectItem[] = Object.entries(markdownFiles)
   .filter((item): item is ProjectItem => Boolean(item))
   .sort((left, right) => right.period.localeCompare(left.period));
 
+const certificateItems: CertificateItem[] = Object.entries(certificationFiles)
+  .map(([path, markdown]) => {
+    const slug = path.match(/\.\/certifications\/([^/]+)\/certificate\.md$/)?.[1];
+    if (!slug) {
+      return null;
+    }
+
+    const { metadata, body } = parseFrontmatter(markdown);
+    const title = String(metadata.title ?? cleanInline(body.match(/^#\s+(.+)$/m)?.[1] ?? `Certificate ${slug}`));
+    const summary = extractSectionParagraphs(body, "Quick Summary")[0] ?? "Certificate summary will be added soon.";
+    const relevance = extractSectionParagraphs(body, "Relevance")[0] ?? "More context will be added soon.";
+    const details = extractSectionBullets(body, "What This Certificate Represents");
+    const issuerNotes = extractSectionBullets(body, "Issuer");
+
+    return {
+      id: slug,
+      title,
+      featured: metadata.featured === true,
+      issuer: String(metadata.issuer ?? issuerNotes[0] ?? "Unknown issuer"),
+      issued: String(metadata.issued ?? "Unknown date"),
+      type: String(metadata.type ?? "Certificate"),
+      summary,
+      details,
+      relevance,
+      issuerNotes,
+      image: imagesByCertification[slug]
+    };
+  })
+  .filter((item): item is CertificateItem => Boolean(item))
+  .sort((left, right) => parseSortableDate(right.issued) - parseSortableDate(left.issued));
+
 const fallbackProjects = ["otolog", "shou"]
   .filter((slug) => !projectItems.some((item) => item.id === slug))
   .map((slug) => ({
@@ -478,6 +641,26 @@ const fallbackProjects = ["otolog", "shou"]
     screenshots: screenshotsByProject[slug] ?? []
   })) satisfies ProjectItem[];
 
+const workExperiences: WorkExperienceItem[] = Object.values(workExperienceFiles)
+  .map((markdown) => {
+    const { metadata, body } = parseFrontmatter(markdown);
+    const summary = extractSectionParagraphs(body, "Summary")[0] ?? "Experience summary will be added soon.";
+    const highlights = extractSectionBullets(body, "Highlights");
+
+    return {
+      company: String(metadata.company ?? "Unknown Company"),
+      location: String(metadata.location ?? "Unknown Location"),
+      role: String(metadata.role ?? "Unknown Role"),
+      start: String(metadata.start ?? ""),
+      end: String(metadata.end ?? ""),
+      period: String(metadata.period ?? ""),
+      order: Number(metadata.order ?? 0),
+      summary,
+      highlights
+    };
+  })
+  .sort((left, right) => left.order - right.order);
+
 export const portfolio = {
   name: aboutData.name,
   role: aboutData.role,
@@ -486,6 +669,7 @@ export const portfolio = {
   about: aboutData.paragraphs,
   skills: aboutData.skills,
   tech: aboutData.tech,
+  softSkills: aboutData.softSkills,
   photo: {
     src: myPhoto.src,
     alt: "Portrait of Argya Aulia Fauzandika"
@@ -496,6 +680,12 @@ export const portfolio = {
       href: "#projects",
       kind: "primary",
       note: "Jump to selected work."
+    },
+    {
+      label: "Download CV",
+      href: contactData.cv,
+      kind: "secondary",
+      note: "Open the local PDF viewer for my latest CV."
     }
   ] satisfies PortfolioLink[],
   directoryLinks: [
@@ -503,7 +693,7 @@ export const portfolio = {
       title: "CV",
       value: "Resume download",
       href: contactData.cv,
-      caption: "Public download link for your latest resume."
+      caption: "Open the local PDF viewer for the latest resume."
     },
     {
       title: "Play Store Developer",
@@ -536,11 +726,22 @@ export const portfolio = {
       caption: "Best for collaboration and freelance inquiries."
     }
   ],
-  projects: [...projectItems, ...fallbackProjects] satisfies ProjectItem[]
+  projects: [...projectItems, ...fallbackProjects] satisfies ProjectItem[],
+  certificates: certificateItems,
+  workExperiences
 };
 
 export const featuredProjects = portfolio.projects.filter((project) => project.featured).slice(0, 3);
 export const regularProjects = portfolio.projects.filter(
   (project) => !project.featured || !featuredProjects.some((featured) => featured.id === project.id)
 );
+const manualFeaturedCertificates = portfolio.certificates.filter((certificate) => certificate.featured);
+const fallbackFeaturedCertificates = portfolio.certificates.filter(
+  (certificate) => !manualFeaturedCertificates.some((featured) => featured.id === certificate.id)
+);
+export const featuredCertificates = [...manualFeaturedCertificates, ...fallbackFeaturedCertificates].slice(0, 3);
+export const regularCertificates = portfolio.certificates.filter(
+  (certificate) => !featuredCertificates.some((featured) => featured.id === certificate.id)
+);
 export const portfolioProjects = portfolio.projects;
+export const portfolioCertificates = portfolio.certificates;

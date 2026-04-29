@@ -52,6 +52,7 @@ const actions = [
 
 const primaryAction = actions.find((action) => action.primary);
 const secondaryActions = actions.filter((action) => !action.primary);
+const isExternalLink = (href: string) => href.startsWith("http://") || href.startsWith("https://");
 ---
 <div class="contact-shell">
   {primaryAction && (
@@ -73,8 +74,8 @@ const secondaryActions = actions.filter((action) => !action.primary);
         <a
           class="contact-link-card"
           href={action.href}
-          target="_blank"
-          rel="noreferrer"
+          target={isExternalLink(action.href) ? "_blank" : undefined}
+          rel={isExternalLink(action.href) ? "noreferrer" : undefined}
         >
           <span>{action.label}</span>
           <strong>{action.value}</strong>

@@ -1,0 +1,29 @@
+---
+import CertificateDetailView from "../../components/CertificateDetailView.astro";
+import Navbar from "../../components/Navbar.astro";
+import { portfolioCertificates } from "../../data/portfolio";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return portfolioCertificates.map((certificate) => ({
+    params: { id: certificate.id },
+    props: { certificate }
+  }));
+}
+
+const { certificate } = Astro.props;
+---
+<BaseLayout
+  title={`${certificate.title} | Argya Aulia Fauzandika`}
+  description={certificate.summary}
+>
+  <main class="page-shell">
+    <Navbar />
+
+    <section class="project-page-top panel">
+      <a class="back-link" href="/#certificates">back / certificates</a>
+    </section>
+
+    <CertificateDetailView certificate={certificate} />
+  </main>
+</BaseLayout>

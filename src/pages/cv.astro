@@ -1,0 +1,45 @@
+---
+import cvFile from "../data/myself/CV_ARGYA AULIA FAUZANDIKA.pdf?url";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="CV | Argya Aulia Fauzandika"
+  description="Local PDF viewer for Argya Aulia Fauzandika's resume."
+  ogTitle="CV | Argya Aulia Fauzandika"
+  ogDescription="View the latest resume directly from the portfolio site."
+>
+  <main class="cv-page-shell">
+    <section class="project-page-top panel">
+      <a class="back-link" href="/">back / home</a>
+    </section>
+
+    <section class="cv-viewer panel">
+      <div class="cv-viewer-head">
+        <div>
+          <p class="terminal-line">[resume.pdf]</p>
+          <h1>Curriculum Vitae</h1>
+          <p>Buka CV langsung dari portfolio ini.</p>
+        </div>
+        <div class="cv-viewer-actions">
+          <a class="button-link" href={cvFile} target="_blank" rel="noreferrer" download>
+            Download PDF
+          </a>
+        </div>
+      </div>
+
+      <div class="cv-viewer-frame-shell">
+        <object class="cv-viewer-frame" data={cvFile} type="application/pdf">
+          <div class="cv-viewer-fallback">
+            <p>Browser ini belum bisa render PDF di dalam halaman.</p>
+            <div class="cv-viewer-actions">
+              <a class="back-link" href="/">back / home</a>
+              <a class="button-link" href={cvFile} target="_blank" rel="noreferrer">
+                Open PDF
+              </a>
+            </div>
+          </div>
+        </object>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

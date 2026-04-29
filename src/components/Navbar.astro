@@ -3,8 +3,10 @@ import logo from "../data/brand/logo.svg";
 
 const navItems = [
   { label: "Home", href: "#top" },
-  { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#work-experience" },
+  { label: "About", href: "#about" },
+  { label: "Certificates", href: "#certificates" },
   { label: "Contact", href: "#contact" }
 ];
 ---
@@ -36,6 +38,10 @@ const navItems = [
         </a>
       ))
     }
+    <button class="theme-toggle" type="button" aria-label="Switch to light mode" data-theme-toggle>
+      <span class="theme-toggle-icon" aria-hidden="true">◐</span>
+      <span class="theme-toggle-label">Dark</span>
+    </button>
   </div>
 </nav>
 
@@ -44,7 +50,10 @@ const navItems = [
   const navToggle = nav?.querySelector("[data-nav-toggle]");
   const navDrawer = nav?.querySelector("[data-nav-drawer]");
   const navLinks = document.querySelectorAll("[data-nav-link]");
+  const themeToggle = nav?.querySelector("[data-theme-toggle]");
+  const themeToggleLabel = themeToggle?.querySelector(".theme-toggle-label");
   const mobileBreakpoint = window.matchMedia("(max-width: 720px)");
+  const themeStorageKey = "gialoop-theme";
 
   const setDrawerState = (open) => {
     if (!nav || !navToggle || !navDrawer) return;
@@ -65,9 +74,25 @@ const navItems = [
     });
   };
 
+  const applyTheme = (theme) => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem(themeStorageKey, theme);
+
+    if (!themeToggle || !themeToggleLabel) return;
+
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    themeToggleLabel.textContent = theme === "dark" ? "Dark" : "Light";
+    themeToggle.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
+  };
+
   navToggle?.addEventListener("click", () => {
     const isOpen = navToggle.getAttribute("aria-expanded") === "true";
     setDrawerState(!isOpen);
+  });
+
+  themeToggle?.addEventListener("click", () => {
+    const currentTheme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+    applyTheme(currentTheme === "dark" ? "light" : "dark");
   });
 
   navLinks.forEach((link) => {
@@ -80,6 +105,7 @@ const navItems = [
     if (!event.matches) setDrawerState(false);
   });
 
+  applyTheme(document.documentElement.dataset.theme === "light" ? "light" : "dark");
   setActiveLink();
   setDrawerState(false);
   window.addEventListener("hashchange", setActiveLink);

@@ -3,9 +3,10 @@ export interface Props {
   paragraphs: string[];
   skills?: string[];
   tech?: string[];
+  softSkills?: string[];
 }
 
-const { paragraphs, skills = [], tech = [] } = Astro.props;
+const { paragraphs, skills = [], tech = [], softSkills = [] } = Astro.props;
 ---
 <div class="about-grid">
   {
@@ -26,6 +27,14 @@ const { paragraphs, skills = [], tech = [] } = Astro.props;
       <p class="terminal-line">[ tech ]</p>
       <ul class="about-list">
         {tech.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="about-list-section about-list-section-single panel">
+    <div class="about-note">
+      <p class="terminal-line">[ soft skill ]</p>
+      <ul class="about-list">
+        {softSkills.map((item) => <li>{item}</li>)}
       </ul>
     </div>
   </div>

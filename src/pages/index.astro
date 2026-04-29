@@ -1,11 +1,13 @@
 ---
 import About from "../components/About.astro";
+import Certificates from "../components/Certificates.astro";
 import Contact from "../components/Contact.astro";
 import Hero from "../components/Hero.astro";
 import Navbar from "../components/Navbar.astro";
 import Projects from "../components/Projects.astro";
 import SectionShell from "../components/SectionShell.astro";
-import { featuredProjects, portfolio } from "../data/portfolio";
+import WorkExperience from "../components/WorkExperience.astro";
+import { featuredCertificates, featuredProjects, portfolio } from "../data/portfolio";
 import BaseLayout from "../layouts/BaseLayout.astro";
 const contactMap = Object.fromEntries(portfolio.directoryLinks.map((link) => [link.title, link.href]));
 const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) => [link.title, link.value]));
@@ -49,17 +51,49 @@ const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) =
     </SectionShell>
 
     <SectionShell
+      id="work-experience"
+      eyebrow="02 // experience"
+      title="Work experience."
+      description="A quick timeline of professional work from earliest to latest."
+    >
+      <WorkExperience experiences={portfolio.workExperiences} />
+    </SectionShell>
+
+    <SectionShell
       id="about"
-      eyebrow="02 // about"
+      eyebrow="03 // about"
       title="About me."
       description="A short introduction about my background and work."
     >
-      <About paragraphs={portfolio.about} skills={portfolio.skills} tech={portfolio.tech} />
+      <About
+        paragraphs={portfolio.about}
+        skills={portfolio.skills}
+        tech={portfolio.tech}
+        softSkills={portfolio.softSkills}
+      />
+    </SectionShell>
+
+    <SectionShell
+      id="certificates"
+      eyebrow="04 // certificates"
+      title="Certificates."
+      description="Selected training and conference milestones."
+    >
+      {featuredCertificates.length > 0 && (
+        <Certificates certificates={featuredCertificates} />
+      )}
+      <div class="project-archive-cta panel">
+        <div>
+          <h3>All Certificates</h3>
+          <p>See the full archive with pinned and regular certificates in one place.</p>
+        </div>
+        <a class="button-link secondary" href="/certificates">View All Certificates</a>
+      </div>
     </SectionShell>
 
     <SectionShell
       id="contact"
-      eyebrow="03 // contact"
+      eyebrow="05 // contact"
       title="Contact."
       description="Simple ways to reach out."
     >

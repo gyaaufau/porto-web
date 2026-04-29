@@ -1,33 +1,35 @@
 ---
 name: Argya Aulia Fauzandika
-role: Flutter Mobile Engineer
-intro: I design and build production-ready Flutter apps with clean architecture, polished UX, and codebases that stay easy to scale.
+role: Mobile Developer (Flutter)
+intro: I build scalable Flutter apps that don’t just work—but are fast, maintainable, and designed to deliver real user value.
 ---
 
-Flutter developer since 2021 with hands-on experience building maintainable, production-ready mobile apps. Strong in clean architecture, scalable code structure, and polished user experience, with the ability to deliver effectively both independently and in team environments.
+Flutter Developer with 1+ year of professional experience, building mobile applications since 2021. Experienced in developing scalable, production-ready apps using clean architecture, with a strong focus on performance and user experience.
 
 ## Skills
 
-- Bloc/Cubit
-- Clean Architecture
-- Dependency Injection
-- API Integration
-- API Interceptor
-- Environment Flavouring
-- AI Agents Orchestration
-- Modularization
-- Local Storage
-- Firebase Integration
-- Responsive UI
-- Debugging
-- Publishing to Play Store
+- State Management (Bloc / Cubit)
+- Clean Architecture Implementation
+- Dependency Injection (get_it)
+- REST API Integration
+- Environment Configuration (Dev, Staging, Production)
+- AI Agent Orchestration
+- Modular App Architecture (melos)
+- Backend Integration (Firebase, Supabase, Appwrite)
+- Translating Figma Designs into Pixel-Perfect UI
+- Debugging & Performance Optimization
+- App Deployment & Publishing (Google Play Store)
 
 ## Tech
 
-- Flutter
-- AI Agents
-- Firebase
-- Supabase
-- Appwrite
-- NestJS
-- Docker
+- Flutter (Dart)
+- AI Agents / LLM
+- Firebase, Supabase, Appwrite
+
+## Soft Skill
+
+- Adaptability
+- Strong ownership and independent work
+- Collaborative teamwork
+- Continuous learning mindset
+- Effective time management
