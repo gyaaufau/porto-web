@@ -68,20 +68,6 @@ lib/
 └── widgets/
 ```
 
-## Technical Challenges
-
-### State synchronization across screens
-
-Because vehicle data, vehicle details, service logs, and the dashboard are interconnected, the main challenge was keeping state consistent after create, update, delete, and active-vehicle switch flows. The solution was to separate Cubits by screen responsibility and trigger focused data reloads in the main navigation flow.
-
-### Local database schema evolution
-
-The project grew from a basic feature set into an app with primary vehicles and odometer tracking for services, so the database schema needed to evolve without damaging existing data. Drift was used with a gradual migration strategy to keep table changes safe as the app version increased.
-
-### Keeping statistics lightweight on-device
-
-Cost and service-frequency statistics needed to be informative while still rendering quickly in a local app. Data is processed from per-vehicle service records and visualized with `fl_chart`, allowing users to read maintenance patterns without external analytics integration.
-
 ## Impact
 
 - Made vehicle maintenance history more structured and easier to search in one application.

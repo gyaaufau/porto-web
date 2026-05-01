@@ -132,6 +132,24 @@ const humanizeSlug = (value: string) =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
+const parseProjectFolder = (folderName: string) => {
+  const match = folderName.match(/^(\d+)[_-](.+)$/);
+  const rawName = match?.[2] ?? folderName;
+  const slug = rawName
+    .trim()
+    .toLowerCase()
+    .replace(/[_\s]+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return {
+    folderName,
+    sortOrder: match ? Number(match[1]) : Number.MAX_SAFE_INTEGER,
+    slug
+  };
+};
+
 const normalizeProjectType = (value: unknown): ProjectType =>
   String(value).toLowerCase() === "work" ? "work" : "personal";
 
@@ -491,10 +509,12 @@ const hiddenSectionTitles = new Set([
 
 const screenshotsByProject = Object.entries(screenshotFiles).reduce<Record<string, ProjectScreenshot[]>>(
   (acc, [path, image]) => {
-    const slug = path.match(/\.\/project\/([^/]+)\//)?.[1];
-    if (!slug) {
+    const folderName = path.match(/\.\/project\/([^/]+)\//)?.[1];
+    if (!folderName) {
       return acc;
     }
+
+    const { slug } = parseProjectFolder(folderName);
 
     acc[slug] ??= [];
     acc[slug].push({
@@ -513,7 +533,12 @@ Object.values(screenshotsByProject).forEach((items) => {
 });
 
 const logosByProject = Object.entries(logoFiles).reduce<Record<string, ProjectLogo>>((acc, [path, asset]) => {
-  const slug = path.match(/\.\/project\/([^/]+)\//)?.[1];
+  const folderName = path.match(/\.\/project\/([^/]+)\//)?.[1];
+  if (!folderName) {
+    return acc;
+  }
+
+  const { slug } = parseProjectFolder(folderName);
   if (!slug || acc[slug]) {
     return acc;
   }
@@ -548,10 +573,12 @@ const imagesByCertification = Object.entries(certificationImageFiles).reduce<Rec
 
 const projectItems: ProjectItem[] = Object.entries(markdownFiles)
   .map(([path, markdown]) => {
-    const slug = path.match(/\.\/project\/([^/]+)\/project\.md$/)?.[1];
-    if (!slug) {
+    const folderName = path.match(/\.\/project\/([^/]+)\/project\.md$/)?.[1];
+    if (!folderName) {
       return null;
     }
+
+    const { slug, sortOrder } = parseProjectFolder(folderName);
 
     const { metadata, body } = parseFrontmatter(markdown);
     const title = cleanInline(body.match(/^#\s+(.+)$/m)?.[1] ?? humanizeSlug(slug));
@@ -572,6 +599,7 @@ const projectItems: ProjectItem[] = Object.entries(markdownFiles)
 
     return {
       id: slug,
+      sortOrder,
       title,
       summary: shortVersion,
       featured: metadata.featured === true,
@@ -588,8 +616,9 @@ const projectItems: ProjectItem[] = Object.entries(markdownFiles)
       screenshots: screenshotsByProject[slug] ?? []
     };
   })
-  .filter((item): item is ProjectItem => Boolean(item))
-  .sort((left, right) => right.period.localeCompare(left.period));
+  .filter((item): item is ProjectItem & { sortOrder: number } => Boolean(item))
+  .sort((left, right) => right.sortOrder - left.sortOrder)
+  .map(({ sortOrder: _sortOrder, ...project }) => project);
 
 const certificateItems: CertificateItem[] = Object.entries(certificationFiles)
   .map(([path, markdown]) => {

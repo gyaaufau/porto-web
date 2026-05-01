@@ -6,6 +6,7 @@ Prompt ini sudah menyesuaikan struktur portfolio sekarang:
 - card project tampilkan chip `Personal/Work`
 - card dan detail project tampilkan chip `Mobile/Web/REST API`
 - data project dibaca dari frontmatter + section markdown
+- urutan project mengikuti prefix nomor pada nama folder, misalnya `01_shou`, `02_otolog`, `03_litbang_au_app`
 
 ## Prompt
 
@@ -27,7 +28,7 @@ appType: [mobile, web, atau rest-api]
 ## Periode Project
 [Contoh: Agustus 2025 - September 2025]
 
-## Ringkasan Singkat
+## Quick Summary
 [1 paragraf singkat. Jelaskan project ini apa, untuk siapa, dan tujuan utamanya.]
 
 ## Problem yang Diselesaikan
@@ -62,16 +63,6 @@ appType: [mobile, web, atau rest-api]
 [tree folder utama project]
 ```
 
-## Tantangan Teknis
-### [Tantangan 1]
-[1 paragraf singkat.]
-
-### [Tantangan 2]
-[1 paragraf singkat.]
-
-### [Tantangan 3]
-[1 paragraf singkat.]
-
 ## Impact
 - [impact 1]
 - [impact 2]
@@ -90,15 +81,20 @@ appType: [mobile, web, atau rest-api]
   - `rest-api`
 - Nilai `featured` hanya `true` atau `false`.
 - `Periode Project` wajib tetap dalam format teks biasa, bukan bullet.
-- `Ringkasan Singkat` harus 1 paragraf pendek.
+- `Quick Summary` harus 1 paragraf pendek.
 - `Problem yang Diselesaikan`, `Fitur Utama`, `Tech Stack`, dan `Impact` wajib berbentuk bullet list.
 - `Repository` boleh berisi item yang relevan saja. Tidak semua link wajib ada.
 - Jika tidak ada repo publik, tetap buat section `Repository` dan isi link relevan yang tersedia.
 - `Struktur Project` pakai block code `text` hanya jika memang ada struktur yang layak ditampilkan.
-- `Tantangan Teknis` idealnya 2-3 subbagian dengan judul yang spesifik, bukan generik.
 - Fokus pada hasil, scope engineering, keputusan teknis, dan value project.
 - Maksimal 1 paragraf untuk tiap section naratif.
 - Nada tulisan harus terasa seperti portfolio engineer yang rapi dan to the point.
+- Jangan tambahkan prefix nomor ke judul project. Prefix nomor hanya untuk nama folder project, bukan isi `project.md`.
+- Untuk folder project, gunakan pola `[nomor]_[slug]`:
+  - `01_` = paling lama
+  - nomor paling besar = paling baru
+  - homepage dan selected project ditampilkan dengan urutan nomor terbesar dulu
+  - slug URL tetap diambil dari nama folder setelah prefix nomor dihapus
 
 ## Jangan Buat Section Ini
 
@@ -108,6 +104,9 @@ appType: [mobile, web, atau rest-api]
 - `Contoh Narasi Siap Pakai`
 - `Kalau Mau Diposisikan Sebagai Hasil Belajar`
 - `Ringkasan Akhir`
+- `Tantangan Teknis`
+- `Brief Summary`
+- `Ringkasan Singkat`
 
 ## Jangan Lakukan Ini
 
@@ -134,7 +133,6 @@ Saya biasanya akan memberi:
 - link repository / Play Store / demo / docs
 - arsitektur atau pola yang dipakai
 - struktur folder project jika relevan
-- tantangan teknis
 - impact atau hasil
 
 Kalau ada informasi yang belum lengkap, tetap bantu susun versi terbaik tanpa membuat bagian terlalu panjang atau mengarang detail yang tidak didukung input.

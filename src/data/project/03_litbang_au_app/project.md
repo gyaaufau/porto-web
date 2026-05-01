@@ -94,20 +94,6 @@ lib/
     └── widgets/
 ```
 
-## Technical Challenges
-
-### State synchronization after actions
-
-After a user accepts, signs, forwards, or responds to a document, the detail view must refresh so the UI stays consistent with the latest status.
-
-### File download lifecycle
-
-The download flow needs to handle retries, local cache checks, save-location selection, and direct file opening from the device.
-
-### Auth-driven routing
-
-Navigation must adapt to the token check result during startup so the splash, login, and main shell remain synchronized with the authentication state.
-
 ## Impact
 
 - Digitized the internal document flow with role-based workflows.

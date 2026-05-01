@@ -10,7 +10,7 @@ appType: mobile
 
 October 2022 - March 2023
 
-## Brief Summary
+## Quick Summary
 
 Shou Project is a Flutter mobile application designed to help users discover, save, and follow information about city-based events, with a primary focus on Japanese culture events through onboarding, authentication, search, bookmarks, event details, and profile management in one modular application.
 
@@ -33,8 +33,9 @@ Shou Project is a Flutter mobile application designed to help users discover, sa
 
 - Flutter
 - Dart
+- dio
 - flutter_bloc and hydrated_bloc
-- GoRouter, GetIt, Hive, and SharedPreferences
+- GoRouter, GetIt, Hive, SharedPreferences, and melos
 
 ## Repository
 
@@ -78,20 +79,6 @@ This project uses a modular monorepo approach with `melos`, separating `features
 ├── android/
 └── ios/
 ```
-
-## Technical Challenges
-
-### Online and local state synchronization
-
-The application combines remote API data with cache and local state for onboarding, tokens, location, bookmarks, dark mode, and search history. The main challenge was keeping state consistent across layers so the UX remained responsive even when backend data was not fully available yet.
-
-### Flutter monorepo modularization
-
-The codebase is split into multiple domain, feature, and shared library packages under `melos`. This structure supports team scalability and better concern isolation, but it requires disciplined dependency boundaries, clear repository contracts, and consistent injection setup across all packages.
-
-### Complex routing and screen lifecycle
-
-The application flow covers splash, onboarding, authentication, home, search, city selector, all events, detail pages, and profile updates. The technical challenge was keeping navigation flow, Bloc/Cubit initialization, and per-screen data loading stable without creating high coupling between screens.
 
 ## Impact
 
