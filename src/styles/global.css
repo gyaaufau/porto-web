@@ -19,6 +19,8 @@
   --surface-white-soft: rgba(255, 255, 255, 0.02);
   --surface-white-softer: rgba(255, 255, 255, 0.03);
   --text-on-accent: #07101c;
+  --code-text: #d7e2f3;
+  --code-bg: rgba(255, 255, 255, 0.03);
   --pill-text: #f9e7ab;
   --chip-personal: #d8e5fb;
   --chip-work: #f4df9a;
@@ -50,6 +52,8 @@ html[data-theme="light"] {
   --surface-white-soft: rgba(28, 34, 48, 0.03);
   --surface-white-softer: rgba(28, 34, 48, 0.05);
   --text-on-accent: #fffaf1;
+  --code-text: #283244;
+  --code-bg: rgba(123, 92, 20, 0.08);
   --pill-text: #7d5500;
   --chip-personal: #35507a;
   --chip-work: #8a5f00;
@@ -1065,8 +1069,8 @@ html[data-theme="light"] .navbar-brand-logo-light {
   border: 1px solid rgba(137, 169, 217, 0.12);
   border-radius: 10px;
   padding: 0.9rem 1rem;
-  background: var(--surface-white-soft);
-  color: #d7e2f3;
+  background: var(--code-bg);
+  color: var(--code-text);
   font: 500 0.78rem/1.6 "IBM Plex Mono", monospace;
   white-space: pre;
 }

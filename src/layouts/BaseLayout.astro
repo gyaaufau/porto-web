@@ -51,7 +51,7 @@ const structuredDataItems = Array.isArray(structuredData)
     <meta name="description" content={description} />
     <meta name="robots" content={robotsContent} />
     <meta name="author" content={siteConfig.personName} />
-    <meta name="theme-color" content="#09121f" />
+    <meta name="theme-color" content="#f4efe4" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content={pageType === "article" ? "article" : "website"} />
     <meta property="og:url" content={canonicalUrl} />
@@ -80,8 +80,7 @@ const structuredDataItems = Array.isArray(structuredData)
       (() => {
         const storageKey = "gialoop-theme";
         const savedTheme = localStorage.getItem(storageKey);
-        const systemTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-        const theme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : systemTheme;
+        const theme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : "light";
         const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
         document.documentElement.dataset.theme = theme;
