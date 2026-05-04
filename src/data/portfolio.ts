@@ -350,6 +350,7 @@ const aboutData = {
     parsedAbout.metadata.intro ??
     "I build mobile products with a focus on thoughtful Flutter architecture, smooth UX, and maintainable code that can grow with the team."
   ),
+  openToOpportunities: parsedAbout.metadata.openToOpportunities !== false,
   paragraphs: aboutParagraphs.length > 0 ? aboutParagraphs : ["Profile content will be added soon."],
   skills: aboutSkills,
   tech: aboutTech,
@@ -708,6 +709,7 @@ export const portfolio = {
   location: contactData.location,
   intro: aboutData.intro,
   about: aboutData.paragraphs,
+  openToOpportunities: aboutData.openToOpportunities,
   skills: aboutData.skills,
   tech: aboutData.tech,
   softSkills: aboutData.softSkills,
