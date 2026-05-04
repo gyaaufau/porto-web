@@ -207,6 +207,10 @@ html[data-theme="light"] .navbar-brand-logo-light {
   text-transform: lowercase;
 }
 
+.hero-status-row {
+  margin-bottom: 0.9rem;
+}
+
 .hero-kicker {
   margin-bottom: 0.9rem;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
