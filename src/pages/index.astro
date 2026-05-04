@@ -29,6 +29,7 @@ const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) =
       role={portfolio.role}
       intro={portfolio.intro}
       location={portfolio.location}
+      openToOpportunities={portfolio.openToOpportunities}
       links={portfolio.heroLinks}
       photo={portfolio.photo}
     />
@@ -70,7 +71,6 @@ const contactValueMap = Object.fromEntries(portfolio.directoryLinks.map((link) =
     >
       <About
         paragraphs={portfolio.about}
-        openToOpportunities={portfolio.openToOpportunities}
         skills={portfolio.skills}
         tech={portfolio.tech}
         softSkills={portfolio.softSkills}

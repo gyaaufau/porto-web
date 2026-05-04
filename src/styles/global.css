@@ -282,6 +282,24 @@ html[data-theme="light"] .navbar-brand-logo-light {
   gap: 0.42rem;
 }
 
+.hero-opportunity-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-color: color-mix(in srgb, #2dbd78 42%, transparent);
+  color: #9cf0bf;
+  background: color-mix(in srgb, #2dbd78 18%, transparent);
+}
+
+.hero-opportunity-pill::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0.5rem currentColor;
+}
+
 .hero-location-pill svg {
   width: 0.92rem;
   height: 0.92rem;
@@ -422,68 +440,6 @@ html[data-theme="light"] .navbar-brand-logo-light {
   background: var(--surface-soft-2);
 }
 
-.about-status-card {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.about-status-copy {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.about-status-text {
-  margin: 0;
-  color: var(--muted);
-}
-
-.about-status-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.45rem 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface-soft-2);
-}
-
-.about-status-track {
-  position: relative;
-  width: 3.25rem;
-  height: 1.8rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--line) 72%, transparent);
-  transition: background 180ms ease;
-}
-
-.about-status-thumb {
-  position: absolute;
-  top: 0.2rem;
-  left: 0.2rem;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  background: var(--text);
-  transition: transform 180ms ease;
-}
-
-.about-status-toggle.is-active .about-status-track {
-  background: color-mix(in srgb, var(--accent) 68%, white 32%);
-}
-
-.about-status-toggle.is-active .about-status-thumb {
-  transform: translateX(1.45rem);
-}
-
-.about-status-label {
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
 
 .about-note {
   position: relative;
@@ -1497,10 +1453,6 @@ html[data-theme="light"] .theme-toggle {
     columns: 1;
   }
 
-  .about-status-card {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 720px) {

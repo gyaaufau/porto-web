@@ -6,6 +6,7 @@ export interface Props {
   role: string;
   intro: string;
   location: string;
+  openToOpportunities?: boolean;
   links: PortfolioLink[];
   photo: {
     src: string;
@@ -15,7 +16,7 @@ export interface Props {
   };
 }
 
-const { name, role, intro, location, links, photo } = Astro.props;
+const { name, role, intro, location, openToOpportunities = true, links, photo } = Astro.props;
 const isExternalLink = (href: string) => href.startsWith("http://") || href.startsWith("https://");
 ---
 <header class="hero">
@@ -25,6 +26,11 @@ const isExternalLink = (href: string) => href.startsWith("http://") || href.star
     <p class="hero-role">{role}</p>
     <p class="hero-intro">{intro}</p>
     <div class="hero-meta">
+      {
+        openToOpportunities && (
+          <span class="hero-opportunity-pill">Open to Opportunities</span>
+        )
+      }
       <span class="hero-location-pill">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path

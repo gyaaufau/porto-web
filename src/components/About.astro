@@ -1,13 +1,12 @@
 ---
 export interface Props {
   paragraphs: string[];
-  openToOpportunities?: boolean;
   skills?: string[];
   tech?: string[];
   softSkills?: string[];
 }
 
-const { paragraphs, openToOpportunities = true, skills = [], tech = [], softSkills = [] } = Astro.props;
+const { paragraphs, skills = [], tech = [], softSkills = [] } = Astro.props;
 ---
 <div class="about-grid">
   {
@@ -15,28 +14,6 @@ const { paragraphs, openToOpportunities = true, skills = [], tech = [], softSkil
       <p class="about-copy">{paragraph}</p>
     ))
   }
-  <div class="about-status-card panel">
-    <div class="about-status-copy">
-      <p class="terminal-line">[ open to opportunities ]</p>
-      <p class="about-status-text">
-        {openToOpportunities ? "Available for freelance, full-time, and collaboration." : "Currently heads down, not taking new opportunities."}
-      </p>
-    </div>
-    <div
-      class:list={[
-        "about-status-toggle",
-        openToOpportunities && "is-active"
-      ]}
-      role="switch"
-      aria-checked={openToOpportunities ? "true" : "false"}
-      aria-label="Open to opportunities"
-    >
-      <span class="about-status-track" aria-hidden="true">
-        <span class="about-status-thumb"></span>
-      </span>
-      <span class="about-status-label">{openToOpportunities ? "On" : "Off"}</span>
-    </div>
-  </div>
   <div class="about-list-section about-list-section-single panel">
     <div class="about-note">
       <p class="terminal-line">[ skills ]</p>
