@@ -26,9 +26,9 @@
   --chip-work: #f4df9a;
   --chip-app: #d7f6ee;
   --contact-chip: #f0ddb0;
-  --status-chip-text: #9cf0bf;
-  --status-chip-bg: rgba(45, 189, 120, 0.18);
-  --status-chip-border: rgba(45, 189, 120, 0.42);
+  --status-chip-text: #d9ffe8;
+  --status-chip-bg: #165c3d;
+  --status-chip-border: #2dbd78;
   --shadow: none;
   --radius: 16px;
   --content: 1040px;
@@ -62,9 +62,9 @@ html[data-theme="light"] {
   --chip-work: #8a5f00;
   --chip-app: #1e6b57;
   --contact-chip: #805800;
-  --status-chip-text: #0f5c39;
-  --status-chip-bg: rgba(45, 189, 120, 0.2);
-  --status-chip-border: rgba(15, 92, 57, 0.34);
+  --status-chip-text: #12462e;
+  --status-chip-bg: #bdf2d1;
+  --status-chip-border: #2f8f5a;
 }
 
 * {

@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 import logo from "../data/brand/logo-loop.svg";
-import ogImageAsset from "../data/brand/og-image.png";
 import { siteConfig } from "../data/seo";
 
 export interface Props {
@@ -23,7 +22,7 @@ const {
   description,
   ogTitle = title,
   ogDescription = description,
-  ogImage = ogImageAsset.src,
+  ogImage = "/og-image.png",
   ogImageAlt = "Gialoop portfolio preview image",
   pageType = "website",
   noindex = false,
@@ -36,9 +35,9 @@ const robotsContent = noindex
   ? "noindex, nofollow"
   : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 const ogImageUrl = new URL(ogImage, Astro.site ?? siteConfig.siteUrl).toString();
-const ogImageWidth = ogImage === ogImageAsset.src ? ogImageAsset.width : undefined;
-const ogImageHeight = ogImage === ogImageAsset.src ? ogImageAsset.height : undefined;
-const ogImageType = ogImage === ogImageAsset.src ? "image/png" : undefined;
+const ogImageWidth = ogImage === "/og-image.png" ? 1731 : undefined;
+const ogImageHeight = ogImage === "/og-image.png" ? 909 : undefined;
+const ogImageType = ogImage === "/og-image.png" ? "image/png" : undefined;
 const structuredDataItems = Array.isArray(structuredData)
   ? structuredData
   : structuredData
