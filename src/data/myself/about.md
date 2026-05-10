@@ -5,7 +5,7 @@ intro: I build scalable Flutter apps that don’t just work—but are fast, main
 openToOpportunities: true
 ---
 
-Mobile Developer with 1+ year of professional experience, building mobile applications using Flutter since 2021. Experienced in developing scalable, production-ready apps using clean architecture, with a strong focus on performance and user experience.
+Mobile Developer with 1+ year of professional experience, building mobile applications using Flutter since 2021. Experienced in developing scalable, production-ready apps using clean architecture, with a strong focus on performance and user experience. Alumnus of Dicoding’s Flutter Expert class.
 
 ## Skills
 
